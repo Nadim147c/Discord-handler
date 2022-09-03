@@ -1,0 +1,28 @@
+{
+    "name": "discord.js-handler",
+    "version": "1.0.0",
+    "description": "A complete discord.js typescript handler.",
+    "main": "src/index.ts",
+    "scripts": {
+        "start": "pm2 start dist/.",
+        "lint": "tslint",
+        "dev-start": "ts-node-dev src/index.ts"
+    },
+    "author": "3n123",
+    "license": "MIT",
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^5.36.1",
+        "@typescript-eslint/parser": "^5.36.1",
+        "dotenv": "^16.0.2",
+        "eslint": "^8.23.0",
+        "nodemon": "^2.0.19",
+        "ts-node": "^10.9.1",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^4.8.2"
+    },
+    "dependencies": {
+        "discord.js": "^14.3.0",
+        "mongoose": "^6.5.4",
+        "pm2": "^5.2.0"
+    }
+}
