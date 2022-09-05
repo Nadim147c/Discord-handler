@@ -2,13 +2,20 @@ import { ApplicationCommandData, Client, Collection } from "discord.js"
 import { readdirSync, statSync } from "fs"
 import { CommandType } from "../typings/Commands"
 import mongoose from "mongoose"
+import { ButtonType } from "../typings/Buttons"
+import { SelectMenuType } from "../typings/SelectMenus"
+import { ModalType } from "../typings/Modals"
 
 export class ExtendedClient extends Client {
     constructor() {
-        super({ intents: ["Guilds", "GuildMembers"], partials: [] })
+        super({ intents: ["Guilds", "GuildMembers", "GuildMessages", "MessageContent"], partials: [] })
     }
 
     commands: Collection<string, CommandType> = new Collection()
+    buttons: Collection<string, ButtonType> = new Collection()
+    selectMenus: Collection<string, SelectMenuType> = new Collection()
+    modals: Collection<string, ModalType> = new Collection()
+
     commandData: Set<ApplicationCommandData> = new Set()
     commandTimeout: Collection<string, Collection<string, number>> = new Collection()
 

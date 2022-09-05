@@ -14,6 +14,6 @@
         "linebreak-style": ["error", "windows"],
         "quotes": ["error", "double"],
         "semi": ["error", "never"],
-        "no-console": ["error", { "allow": ["warn", "log"] }]
+        "no-console": ["warn", { "allow": ["warn"] }]
     }
 }
