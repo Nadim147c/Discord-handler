@@ -1,5 +1,6 @@
 import { Collection, EmbedBuilder, inlineCode, Message } from "discord.js"
 import { colors, commandTimeout, developers, testers } from "../../../config"
+import { logError } from "../../../functions/log/logger"
 import { Event } from "../../../structures/Event"
 import { ExtendedCommand } from "../../../typings/Commands"
 
@@ -78,7 +79,7 @@ export default new Event("interactionCreate", async (interaction) => {
 
     if (module.permissions?.length && !member.permissions.has(module.permissions)) {
         const permissions = module.permissions.map((x) => inlineCode(x)).join(", ")
-        return command.warn(`You need following permissions to use this commands.\n${permissions}`)
+        return command.warn(`You need following permissions to use this command.\n${permissions}`)
     }
 
     const { commandTimeout: timeout } = client
@@ -108,7 +109,6 @@ export default new Event("interactionCreate", async (interaction) => {
     try {
         module.run(command)
     } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(error)
+        logError(error)
     }
 })

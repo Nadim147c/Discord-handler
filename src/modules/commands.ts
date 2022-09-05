@@ -13,8 +13,6 @@ export default async (client: ExtendedClient) => {
         for (const file of commandFiles) {
             const basePath = `${path}/${dir}/${file}`
 
-            let name = file
-
             let data: ChatInputApplicationCommandData = {
                 name: file,
                 description: `Commands related to ${file}`,
@@ -39,13 +37,11 @@ export default async (client: ExtendedClient) => {
                     if (!filter(groupPath) && (await client.isDir(basePath))) {
                         const subCommandFiles = readdirSync(groupPath)
 
-                        name += `-${group}`
-
                         for (const sub of subCommandFiles) {
                             const subCommandPath = `${groupPath}/${sub}`
                             const command: CommandType = await client.importFile(subCommandPath)
 
-                            name += `-${command.data.name}`
+                            const name = `${file}-${group}-${command.data.name}`
 
                             command.category = dir
 
@@ -58,7 +54,7 @@ export default async (client: ExtendedClient) => {
 
                         command.category = dir
 
-                        name += `-${command.data.name}`
+                        const name = `${file}-${command.data.name}`
 
                         client.commands.set(name, command)
 
