@@ -1,8 +1,8 @@
 import { EmbedBuilder, inlineCode, Message } from "discord.js"
-import { colors } from "../../../config"
-import { logError } from "../../../functions/log/logger"
-import { Event } from "../../../structures/Event"
-import { ExtendedButton } from "../../../typings/Buttons"
+import { colors } from "../../config"
+import { logError } from "../../functions/log/logger"
+import { Event } from "../../structures/Event"
+import { ExtendedButton } from "../../typings/Buttons"
 
 export default new Event("interactionCreate", async (interaction) => {
     if (!interaction.isButton()) return

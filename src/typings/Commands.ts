@@ -7,20 +7,18 @@ import {
 } from "discord.js"
 import { ExtendedClient } from "../structures/Client"
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type replier = (content: string, ephemeral?: boolean, seconds?: number) => any
+export type Replier = (content: string, ephemeral?: boolean, seconds?: number) => unknown
 
 export interface ExtendedCommand extends CommandInteraction {
     options: CommandInteractionOptionResolver
     member: GuildMember
     client: ExtendedClient
-    response: replier
-    warn: replier
-    error: replier
+    response: Replier
+    warn: Replier
+    error: Replier
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type CommandFunction = (interaction: ExtendedCommand) => any
+export type CommandFunction = (interaction: ExtendedCommand) => unknown
 
 export type CommandType = {
     data: ChatInputApplicationCommandData

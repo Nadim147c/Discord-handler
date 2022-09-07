@@ -1,8 +1,8 @@
 import { EmbedBuilder, inlineCode, Message } from "discord.js"
-import { colors } from "../../../config"
-import { logError } from "../../../functions/log/logger"
-import { Event } from "../../../structures/Event"
-import { ExtendedSelectMenu } from "../../../typings/SelectMenus"
+import { colors } from "../../config"
+import { logError } from "../../functions/log/logger"
+import { Event } from "../../structures/Event"
+import { ExtendedSelectMenu } from "../../typings/SelectMenus"
 
 export default new Event("interactionCreate", async (interaction) => {
     if (!interaction.isSelectMenu()) return
@@ -75,7 +75,7 @@ export default new Event("interactionCreate", async (interaction) => {
 
     if (module.permissions?.length && !member.permissions.has(module.permissions)) {
         const permissions = module.permissions.map((x) => inlineCode(x)).join(", ")
-        return select.warn(`You need following permissions to use this button.\n${permissions}`)
+        return select.warn(`You need following permissions to use this dropdown menu.\n${permissions}`)
     }
 
     try {

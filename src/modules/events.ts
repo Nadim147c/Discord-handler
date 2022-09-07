@@ -4,7 +4,7 @@ import { ExtendedClient } from "../structures/Client"
 import { Event } from "../structures/Event"
 
 export default async (client: ExtendedClient) => {
-    const pathFiles = `${__dirname}/../events/discord`
+    const pathFiles = `${__dirname}/../events/`
     const filter = (file: string) => file.endsWith(".ts") || file.endsWith(".js")
 
     async function starter(path: string) {

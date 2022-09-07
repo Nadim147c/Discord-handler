@@ -1,4 +1,4 @@
-import { EmbedBuilder, EmbedField } from "discord.js"
+import { codeBlock, EmbedBuilder, EmbedField } from "discord.js"
 import { color } from "../../../config"
 import { Command } from "../../../structures/Command"
 import { CommandType } from "../../../typings/Commands"
@@ -14,13 +14,15 @@ export default new Command({
 
         const categories = Array.from(new Set(commands.map(([, v]) => v.category)))
 
-        const map = ([k]: [string, CommandType]) => `\`${k.split("-").join(" ")}\``
+        const map = ([k]: [string, CommandType]) => `/${k.split("-").join(" ")}`
 
         const fields: EmbedField[] = categories.map((cate) => {
-            const value = commands
-                .filter(([, v]) => v.category === cate)
-                .map(map)
-                .join(", ")
+            const value = codeBlock(
+                commands
+                    .filter(([, v]) => v.category === cate)
+                    .map(map)
+                    .join("\n"),
+            )
             const name = cate
             return { value, name, inline: false }
         })

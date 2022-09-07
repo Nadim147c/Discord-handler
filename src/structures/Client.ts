@@ -5,16 +5,22 @@ import mongoose from "mongoose"
 import { ButtonType } from "../typings/Buttons"
 import { SelectMenuType } from "../typings/SelectMenus"
 import { ModalType } from "../typings/Modals"
+import { TriggersType } from "../typings/Triggers"
+import { ContextMenuType } from "../typings/ContextMenus"
 
 export class ExtendedClient extends Client {
     constructor() {
-        super({ intents: ["Guilds", "GuildMembers", "GuildMessages", "MessageContent"], partials: [] })
+        super({
+            intents: ["Guilds", "GuildMembers", "GuildMessageReactions", "GuildMessages", "MessageContent"],
+        })
     }
 
     commands: Collection<string, CommandType> = new Collection()
     buttons: Collection<string, ButtonType> = new Collection()
     selectMenus: Collection<string, SelectMenuType> = new Collection()
     modals: Collection<string, ModalType> = new Collection()
+    triggers: TriggersType = { message: new Collection(), reaction: new Collection() }
+    contextMenu: ContextMenuType = { message: new Collection(), user: new Collection() }
 
     commandData: Set<ApplicationCommandData> = new Set()
     commandTimeout: Collection<string, Collection<string, number>> = new Collection()
