@@ -5,8 +5,12 @@
     "main": "src/index.ts",
     "scripts": {
         "start": "pm2 start dist/.",
-        "lint": "tslint",
-        "dev-start": "ts-node-dev src/index.ts"
+        "nodemon": "nodemon dist/.",
+        "lint": "eslint",
+        "ts-start": "ts-node src/.",
+        "ts-dev": "ts-node-dev src/.",
+        "build": "tsc",
+        "watch": "tsc -w"
     },
     "author": "3n123",
     "license": "MIT",

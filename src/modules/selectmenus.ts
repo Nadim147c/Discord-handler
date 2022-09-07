@@ -9,8 +9,8 @@ export default async (client: ExtendedClient) => {
     async function loader(path: string) {
         readdirSync(path).forEach(async (file: string) => {
             if (!filter(`${path}/${file}`) && (await client.isDir(`${path}/${file}`))) return loader(`${path}/${file}`)
-            const buttons: SelectMenuType = await client.importFile(`${path}/${file}`)
-            client.selectMenus.set(buttons.id, buttons)
+            const select: SelectMenuType = await client.importFile(`${path}/${file}`)
+            client.selectMenus.set(select.id, select)
         })
     }
 

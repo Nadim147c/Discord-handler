@@ -1,8 +1,8 @@
 import { Collection, EmbedBuilder, inlineCode, Message } from "discord.js"
-import { colors, commandTimeout, developers, testers } from "../../../config"
-import { logError } from "../../../functions/log/logger"
-import { Event } from "../../../structures/Event"
-import { ExtendedCommand } from "../../../typings/Commands"
+import { colors, commandTimeout, developers, testers } from "../../config"
+import { logError } from "../../functions/log/logger"
+import { Event } from "../../structures/Event"
+import { ExtendedCommand } from "../../typings/Commands"
 
 export default new Event("interactionCreate", async (interaction) => {
     if (!interaction.isChatInputCommand()) return

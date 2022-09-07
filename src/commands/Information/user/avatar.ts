@@ -7,6 +7,7 @@ export default new Command({
     data: {
         name: "avatar",
         description: "Get user avatar.",
+        dmPermission: false,
         options: [
             {
                 type: ApplicationCommandOptionType.User,
