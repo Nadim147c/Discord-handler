@@ -1,4 +1,6 @@
 import {
+    ApplicationCommandType,
+    BaseApplicationCommandData,
     Collection,
     GuildMember,
     MessageContextMenuCommandInteraction,
@@ -20,10 +22,11 @@ export interface ExtendedMessageContextMenu extends MessageContextMenuCommandInt
 export type MessageContextMenuFunction = (interaction: ExtendedMessageContextMenu) => unknown
 
 export type MessageContextMenuType = {
-    id: string
+    type?: ApplicationCommandType
+    name: string
     permissions?: PermissionsString[]
     run: MessageContextMenuFunction
-}
+} & BaseApplicationCommandData
 
 export interface ExtendedUserContextMenu extends UserContextMenuCommandInteraction {
     member: GuildMember
@@ -36,10 +39,11 @@ export interface ExtendedUserContextMenu extends UserContextMenuCommandInteracti
 export type UserContextMenuFunction = (interaction: ExtendedUserContextMenu) => unknown
 
 export type UserContextMenuType = {
-    id: string
+    type?: ApplicationCommandType
+    name: string
     permissions?: PermissionsString[]
     run: UserContextMenuFunction
-}
+} & BaseApplicationCommandData
 
 export type ContextMenuType = {
     message: Collection<string, MessageContextMenuType>

@@ -7,7 +7,6 @@ export const testers = ["759472423807746059"]
 
 // Times in ms
 export const commandTimeout = 1000 * 5
-export const collectorTime = 1000 * 60
 
 // colors
 export const color = 0x2f3136

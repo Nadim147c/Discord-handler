@@ -15,6 +15,7 @@
     "author": "3n123",
     "license": "MIT",
     "devDependencies": {
+        "@types/node": "^18.7.16",
         "@typescript-eslint/eslint-plugin": "^5.36.1",
         "@typescript-eslint/parser": "^5.36.1",
         "dotenv": "^16.0.2",
@@ -25,8 +26,8 @@
         "typescript": "^4.8.2"
     },
     "dependencies": {
+        "chalk": "^4.1.2",
         "discord.js": "^14.3.0",
-        "mongoose": "^6.5.4",
         "pm2": "^5.2.0"
     }
 }

@@ -1,10 +1,13 @@
 declare global {
-    namespace Node {
-        interface ProcessEnv {
-            DISCORD: string
-            MONGODB: string
-        }
+  namespace NodeJS {
+    interface ProcessEnv {
+      DISCORD: string
+      MONGODB: string
+      GUILDS: string
+      LOGIN: string
+      ERROR: string
     }
+  }
 }
 
 export {}

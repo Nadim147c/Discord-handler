@@ -63,7 +63,7 @@ export default new Event("interactionCreate", async (interaction) => {
     const { client } = context
 
     if (context.isMessageContextMenuCommand()) {
-        const module = client.contextMenu.message.get(context.commandName)
+        const module = client.contextMenus.message.get(context.commandName)
         if (!module) return context.error("oops! There is any annoying error.")
 
         const { member } = context
@@ -79,7 +79,7 @@ export default new Event("interactionCreate", async (interaction) => {
             logError(error)
         }
     } else if (context.isUserContextMenuCommand()) {
-        const module = client.contextMenu.user.get(context.commandName)
+        const module = client.contextMenus.user.get(context.commandName)
         if (!module) return context.error("oops! There is any annoying error.")
 
         const { member } = context

@@ -1,3 +1,4 @@
+import chalk from "chalk"
 import { DateResolvable, EmbedBuilder, Guild, WebhookClient } from "discord.js"
 import { ExtendedClient } from "../../structures/Client"
 import { getDynamicTime } from "../discord/getDynamicTime"
@@ -5,8 +6,13 @@ import { getDynamicTime } from "../discord/getDynamicTime"
 const detailedTime = (date: DateResolvable) =>
     `${getDynamicTime(date, "LONG_TIME_AND_DATE")}  ${getDynamicTime(date, "RELATIVE")}`
 
+// eslint-disable-next-line no-console
+export const coloredLog = (str: string, color: string) => console.log(chalk.hex(color)(str))
+export const logSuccess = (str: string) => coloredLog(str, "#0f0")
+export const LogFail = (str: string | Error) => coloredLog(typeof str === "string" ? str : str.message, "#f00")
+
 export const LogStart = (client: ExtendedClient) => {
-    console.log(`${client.user.tag} is ready`)
+    logSuccess(`${client.user.username} is ready.`)
     if (!process.env.LOGIN) return
     const webhook = new WebhookClient({ url: process.env.LOGIN })
 
@@ -52,6 +58,8 @@ export const logError = (error: Error) => {
 }
 
 export const guildLog = (guild: Guild, event: "CREATE" | "DELETE") => {
+    event === "CREATE" ? logSuccess(`Guild Create: ${guild.name}`) : LogFail(`Guild Remove: ${guild.name}`)
+
     if (!process.env.GUILDS) return
     const webhook = new WebhookClient({ url: process.env.GUILDS })
     const description = `Name: ${guild.name}\nMembers: ${guild.memberCount}\nCreate: ${detailedTime(
