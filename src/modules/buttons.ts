@@ -8,7 +8,7 @@ export default async (client: ExtendedClient) => {
 
     async function loader(path: string) {
         readdirSync(path).forEach(async (file: string) => {
-            if (!filter(`${path}/${file}`) && (await client.isDir(`${path}/${file}`))) return loader(`${path}/${file}`)
+            if (!filter(file) && (await client.isDir(`${path}/${file}`))) return loader(`${path}/${file}`)
             const button: ButtonType = await client.importFile(`${path}/${file}`)
             client.buttons.set(button.id, button)
         })

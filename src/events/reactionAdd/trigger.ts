@@ -3,15 +3,13 @@ import { colors } from "../../config"
 import { Event } from "../../structures/Event"
 import { ExtendedReaction } from "../../typings/Triggers"
 
-export default new Event("messageReactionAdd", async (reaction: ExtendedReaction) => {
+export default new Event("messageReactionAdd", async (reaction: ExtendedReaction, user) => {
     const { message } = reaction
-
-    console.log(reaction.emoji.name, reaction.client.triggers.reaction)
 
     if (!message.inGuild()) return
 
-    const { client, emoji, users } = reaction
-    const id = users.cache.first().id
+    const { client, emoji } = reaction
+    const id = user.id
 
     reaction.response = async function (content, replyMention = false, time) {
         const embeds = [new EmbedBuilder().setColor(colors.default).setDescription(content)]
@@ -49,6 +47,6 @@ export default new Event("messageReactionAdd", async (reaction: ExtendedReaction
     const trigger = client.triggers.reaction
 
     trigger.forEach((trigger, key) => {
-        if (emoji.name === key && emoji.id === key) trigger.run(reaction)
+        if (emoji.name === key || emoji.id === key) trigger.run(reaction)
     })
 })

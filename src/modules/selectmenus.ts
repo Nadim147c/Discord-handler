@@ -7,8 +7,8 @@ export default async (client: ExtendedClient) => {
     const filter = (file: string) => file.endsWith(".ts") || file.endsWith(".js")
 
     async function loader(path: string) {
-        readdirSync(path).forEach(async (file: string) => {
-            if (!filter(`${path}/${file}`) && (await client.isDir(`${path}/${file}`))) return loader(`${path}/${file}`)
+        readdirSync(path).forEach(async (file) => {
+            if (!filter(file) && (await client.isDir(`${path}/${file}`))) return loader(`${path}/${file}`)
             const select: SelectMenuType = await client.importFile(`${path}/${file}`)
             client.selectMenus.set(select.id, select)
         })

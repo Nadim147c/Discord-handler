@@ -1,4 +1,6 @@
 import {
+    ApplicationCommandOptionChoiceData,
+    AutocompleteInteraction,
     ChatInputApplicationCommandData,
     CommandInteraction,
     CommandInteractionOptionResolver,
@@ -18,7 +20,17 @@ export interface ExtendedCommand extends CommandInteraction {
     error: Replier
 }
 
+export interface ExtendedAutoComplete extends AutocompleteInteraction {
+    member: GuildMember
+    client: ExtendedClient
+}
+
 export type CommandFunction = (interaction: ExtendedCommand) => unknown
+
+export type AutoCompleteFunction = (
+    interaction: ExtendedAutoComplete,
+    focused: string,
+) => Promise<ApplicationCommandOptionChoiceData[]>
 
 export type CommandType = {
     data: ChatInputApplicationCommandData
@@ -29,5 +41,6 @@ export type CommandType = {
     permissions?: PermissionsString[]
     deffer?: boolean
     ephemeral?: boolean
+    autocomplete?: AutoCompleteFunction
     run: CommandFunction
 }
