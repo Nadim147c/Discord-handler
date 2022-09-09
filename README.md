@@ -154,7 +154,7 @@ All `Button`, `Select Menu`, `Modal` and `Context Menu` handlers are available i
 
 ### Methods
 
--   You get `response`, `warn` and `error` method for quickly replying to users. (same as [`commands`](#additional-methods))
+-   You get `response`, `warn` and `error` method for quickly replying to users. (same as [`commands`](#methods))
 
 ### Escape Handling
 
@@ -231,7 +231,7 @@ export default new Button({
 
 ### Methods
 
--   You get `response`, `warn` and `error` method for quickly replying to users. (same as [`commands`](#additional-methods))
+-   You get `response`, `warn` and `error` method for quickly replying to users. (same as [`commands`](#methods))
 
 ---
 
