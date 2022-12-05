@@ -8,6 +8,8 @@ export default new Event("messageReactionAdd", async (reaction: ExtendedReaction
 
     if (!message.inGuild()) return
 
+    if (reaction.partial) reaction.message = await reaction.message.fetch()
+
     const { client, emoji } = reaction
     const id = user.id
 
