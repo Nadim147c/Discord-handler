@@ -1,7 +1,28 @@
-import { SelectMenuType } from "../typings/SelectMenus"
+import {
+    ChannelSelectMenuType,
+    RoleSelectMenuType,
+    StringSelectMenuType,
+    UserSelectMenuType,
+} from "../typings/SelectMenus"
 
-export class SelectMenu {
-    constructor(selectOptions: SelectMenuType) {
-        Object.assign(this, selectOptions)
+export class StringSelectMenu {
+    constructor(selectOptions: StringSelectMenuType) {
+        Object.assign(this, selectOptions, { type: "String" } as StringSelectMenuType)
+    }
+}
+
+export class UserSelectMenu {
+    constructor(selectOptions: UserSelectMenuType) {
+        Object.assign(this, selectOptions, { type: "User" } as UserSelectMenuType)
+    }
+}
+export class RoleSelectMenu {
+    constructor(selectOptions: RoleSelectMenuType) {
+        Object.assign(this, selectOptions, { type: "Role" } as RoleSelectMenuType)
+    }
+}
+export class ChannelSelectMenu {
+    constructor(selectOptions: ChannelSelectMenuType) {
+        Object.assign(this, selectOptions, { type: "Channel" } as ChannelSelectMenuType)
     }
 }
