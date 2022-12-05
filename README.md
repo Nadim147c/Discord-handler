@@ -31,12 +31,23 @@ A complete discord.js typescript handler.
 
 ## Installation
 
--   Use this command to clone the repository and install all dependencies.
+-   Use this command to clone the repository.
 
 ```bash
 git clone https://github.com/3N147/Discord-handler.git
 
+```
+
+Install all dependencies. Using `npm`:
+
+```bash
 npm i
+```
+
+or using `yarn`:
+
+```bash
+yarn
 ```
 
 ### Environment Variables
