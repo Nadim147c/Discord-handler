@@ -2,17 +2,19 @@ import {
     ActionRowBuilder,
     ButtonBuilder,
     ButtonStyle,
+    ChannelSelectMenuBuilder,
     ModalBuilder,
-    SelectMenuBuilder,
-    SelectMenuComponentOptionData,
+    RoleSelectMenuBuilder,
+    StringSelectMenuBuilder,
     TextInputBuilder,
     TextInputStyle,
+    UserSelectMenuBuilder,
 } from "discord.js"
 
-export const createRow = (...components: (ButtonBuilder | SelectMenuBuilder)[]) =>
+export const createRow = (...components: (ButtonBuilder | UserSelectMenuBuilder | RoleSelectMenuBuilder | ChannelSelectMenuBuilder | StringSelectMenuBuilder)[]) =>
     new ActionRowBuilder().setComponents(components) as
-        | ActionRowBuilder<ButtonBuilder>
-        | ActionRowBuilder<SelectMenuBuilder>
+    | ActionRowBuilder<ButtonBuilder>
+    | ActionRowBuilder<UserSelectMenuBuilder | RoleSelectMenuBuilder | ChannelSelectMenuBuilder | StringSelectMenuBuilder>
 
 const { Link, Secondary } = ButtonStyle
 
@@ -51,28 +53,4 @@ export const createModalField = (
 
 export const createModel = (title: string, customId: string) => new ModalBuilder().setTitle(title).setCustomId(customId)
 
-export const createSelectMenu = (
-    placeholder: string,
-    customId: string,
-    disabled: boolean,
-    ...options: SelectMenuComponentOptionData[]
-) => {
-    const components: ActionRowBuilder<SelectMenuBuilder>[] = []
 
-    for (let i = 0; i < 5; i++) {
-        const range = [i * 25, (i + 1) * 25]
-
-        components[i] = new ActionRowBuilder<SelectMenuBuilder>().setComponents(
-            new SelectMenuBuilder()
-                .setPlaceholder(placeholder)
-                .setCustomId(customId + i)
-                .setMaxValues(1)
-                .setDisabled(disabled)
-                .setOptions(...options.slice(...range)),
-        )
-
-        if (options.length <= (i + 1) * 25) break
-    }
-
-    return components
-}

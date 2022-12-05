@@ -1,4 +1,5 @@
-import { createSelectMenu } from "../../../../functions/discord/components"
+import { ActionRowBuilder, StringSelectMenuBuilder } from "@discordjs/builders"
+import { ChannelSelectMenuBuilder, RoleSelectMenuBuilder, StringSelectMenuOptionBuilder, UserSelectMenuBuilder } from "discord.js"
 import { Command } from "../../../../structures/Command"
 
 export default new Command({
@@ -8,23 +9,27 @@ export default new Command({
     },
     dev: true,
     async run(command) {
-        const components = createSelectMenu(
-            "Make your selection",
-            "example",
-            false,
-            {
-                label: "Example",
-                value: "example",
-                description: "This is chosen by default",
-                emoji: { name: "💡" },
-                default: true,
-            },
-            {
-                label: "Another Option",
-                value: "example2",
-                emoji: { name: "❌" },
-            },
-        )
+        const ROW = () => new ActionRowBuilder<UserSelectMenuBuilder | RoleSelectMenuBuilder | ChannelSelectMenuBuilder | StringSelectMenuBuilder>()
+        const OPTION = (label: string, value: string, emoji: unknown) => new StringSelectMenuOptionBuilder().setLabel(label).setValue(value).setEmoji(emoji)
+
+        const components = [
+            ROW().addComponents(
+                new UserSelectMenuBuilder().setCustomId("user").setPlaceholder("User select menu").setMaxValues(1)
+            ),
+            ROW().addComponents(
+                new RoleSelectMenuBuilder().setCustomId("role").setPlaceholder("Role select menu").setMaxValues(1)
+            ),
+            ROW().addComponents(
+                new ChannelSelectMenuBuilder().setCustomId("channel").setPlaceholder("Channel select menu").setMaxValues(1)
+            ),
+            ROW().addComponents(
+                new StringSelectMenuBuilder().setCustomId("string").setPlaceholder("String select menu").setMaxValues(1).addOptions(
+                    OPTION("First option", "option 1", "😀"),
+                    OPTION("Second option", "option 2", "😀"),
+                )
+            )
+        ]
+
         command.reply({ components, ephemeral: true })
     },
 })

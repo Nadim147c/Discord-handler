@@ -31,7 +31,7 @@ A complete discord.js typescript handler.
 
 ## Installation
 
--   Use this command to clone the repository and install of dependency.
+-   Use this command to clone the repository and install all dependencies.
 
 ```bash
 git clone https://github.com/3N147/Discord-handler.git
@@ -51,10 +51,10 @@ npm i
 
 ## Commands
 
--   Dynamic handler. You don't have to user `client.on` in your index file.
+-   Dynamic handler. You don't have to use `client.on` in your index file.
 -   All commands are categorized by folder in [commands](/src/commands/) folder.
--   You have export a commands object using the [Command Class](src/structures/Command.ts).
--   Your the `run` method will be executed when someone uses the command.
+-   You just have to export a commands object using the [Command Class](src/structures/Command.ts).
+-   `run` method will be executed when someone uses the command.
 
 ```ts
 import { Command } from "../../../structures/Command"
@@ -72,7 +72,7 @@ export default new Command({
 
 ### Auto Complete
 
--   `Autocomplete` interaction can be handled by `autocomplete` method. **[Learn More]()**
+-   `Autocomplete` interaction are handled by `autocomplete` method. **[Learn More]()**
 
 ```ts
 export default new Command({

@@ -2,12 +2,18 @@ import { EmbedBuilder, inlineCode, Message } from "discord.js"
 import { colors } from "../../config"
 import { logError } from "../../functions/log/logger"
 import { Event } from "../../structures/Event"
-import { ExtendedSelectMenu } from "../../typings/SelectMenus"
+import {
+    ChannelSelectMenuType,
+    ExtendedAnySelectMenu,
+    RoleSelectMenuType,
+    StringSelectMenuType,
+    UserSelectMenuType,
+} from "../../typings/SelectMenus"
 
 export default new Event("interactionCreate", async (interaction) => {
-    if (!interaction.isSelectMenu()) return
+    if (!interaction.isAnySelectMenu()) return
 
-    const select = interaction as ExtendedSelectMenu
+    const select = interaction as ExtendedAnySelectMenu
 
     // For the buttons that are collect through messageComponent collector
     if (select.customId.startsWith("t:")) return
@@ -67,20 +73,64 @@ export default new Event("interactionCreate", async (interaction) => {
         return message
     }
 
-    const module = select.client.selectMenus.get(key.replace(/[0-4]$/, ""))
+    function checkPermission(
+        module: StringSelectMenuType | UserSelectMenuType | RoleSelectMenuType | ChannelSelectMenuType,
+    ): boolean {
+        const { member } = select
 
-    if (!module) return select.error("oops! There is any annoying error.")
-
-    const { member } = select
-
-    if (module.permissions?.length && !member.permissions.has(module.permissions)) {
-        const permissions = module.permissions.map((x) => inlineCode(x)).join(", ")
-        return select.warn(`You need following permissions to use this dropdown menu.\n${permissions}`)
+        if (module.permissions?.length && !member.permissions.has(module.permissions)) {
+            const permissions = module.permissions.map((x) => inlineCode(x)).join(", ")
+            select.warn(`You need following permissions to use this dropdown menu.\n${permissions}`)
+            return true
+        }
+        return false
     }
 
-    try {
-        module.run(select)
-    } catch (error) {
-        logError(error)
+    if (select.isStringSelectMenu()) {
+        const module = select.client.selectMenus.string.get(key.replace(/[0-4]$/, ""))
+
+        if (!module) return select.error("oops! There is any annoying error.")
+        if (checkPermission(module)) return
+
+        try {
+            module.run(select)
+        } catch (error) {
+            logError(error)
+        }
+    } else if (select.isUserSelectMenu()) {
+        const module = select.client.selectMenus.user.get(key.replace(/[0-4]$/, ""))
+
+        if (!module) return select.error("oops! There is any annoying error.")
+        if (checkPermission(module)) return
+
+        try {
+            module.run(select)
+        } catch (error) {
+            logError(error)
+        }
+    }
+    if (select.isRoleSelectMenu()) {
+        const module = select.client.selectMenus.role.get(key.replace(/[0-4]$/, ""))
+
+        if (!module) return select.error("oops! There is any annoying error.")
+        if (checkPermission(module)) return
+
+        try {
+            module.run(select)
+        } catch (error) {
+            logError(error)
+        }
+    }
+    if (select.isChannelSelectMenu()) {
+        const module = select.client.selectMenus.channel.get(key.replace(/[0-4]$/, ""))
+
+        if (!module) return select.error("oops! There is any annoying error.")
+        if (checkPermission(module)) return
+
+        try {
+            module.run(select)
+        } catch (error) {
+            logError(error)
+        }
     }
 })

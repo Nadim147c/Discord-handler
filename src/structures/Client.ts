@@ -1,8 +1,13 @@
-import { ApplicationCommand, ApplicationCommandData, Client, Collection, Guild, Partials } from "discord.js"
+import { ApplicationCommand, ApplicationCommandData, Client, Collection, Partials } from "discord.js"
 import { readdirSync, statSync } from "fs"
 import { CommandType } from "../typings/Commands"
 import { ButtonType } from "../typings/Buttons"
-import { SelectMenuType } from "../typings/SelectMenus"
+import {
+    ChannelSelectMenuType,
+    RoleSelectMenuType,
+    StringSelectMenuType,
+    UserSelectMenuType,
+} from "../typings/SelectMenus"
 import { ModalType } from "../typings/Modals"
 import { TriggersType } from "../typings/Triggers"
 import { ContextMenuType } from "../typings/ContextMenus"
@@ -18,10 +23,16 @@ export class ExtendedClient extends Client {
 
     commands: Collection<string, CommandType> = new Collection()
     buttons: Collection<string, ButtonType> = new Collection()
-    selectMenus: Collection<string, SelectMenuType> = new Collection()
     modals: Collection<string, ModalType> = new Collection()
     triggers: TriggersType = { message: new Collection(), reaction: new Collection() }
     contextMenus: ContextMenuType = { message: new Collection(), user: new Collection() }
+
+    selectMenus = {
+        string: new Collection() as Collection<string, StringSelectMenuType>,
+        user: new Collection() as Collection<string, UserSelectMenuType>,
+        role: new Collection() as Collection<string, RoleSelectMenuType>,
+        channel: new Collection() as Collection<string, ChannelSelectMenuType>,
+    }
 
     commandData: Set<ApplicationCommandData> = new Set()
     commandTimeout: Collection<string, Collection<string, number>> = new Collection()
