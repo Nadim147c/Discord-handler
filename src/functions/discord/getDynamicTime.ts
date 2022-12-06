@@ -1,3 +1,4 @@
+export const getSeconds = (date: string | number | Date) => Math.round(new Date(date).valueOf() / 1000)
 export const getDynamicTime = (
     date: string | number | Date,
     style:
@@ -9,8 +10,6 @@ export const getDynamicTime = (
         | "LONG_TIME_AND_DATE"
         | "RELATIVE",
 ) => {
-    const getSeconds = (date: string | number | Date) => Math.round(new Date(date).valueOf() / 1000)
-
     let type: string
 
     switch (style) {
@@ -34,6 +33,8 @@ export const getDynamicTime = (
             break
         case "RELATIVE":
             type = "R"
+            break
+        default:
             break
     }
 

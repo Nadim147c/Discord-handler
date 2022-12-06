@@ -1,15 +1,17 @@
 import { Collection, GuildMember, Message, MessageReaction } from "discord.js"
-import { ExtendedClient } from "../structures/Client"
+import ExtendedClient from "../structures/Client"
 
-export type Replier = (content: string, replyMention?: boolean, seconds?: number) => unknown
+export type TriggerReplier = (content: string, replyMention?: boolean, seconds?: number) => unknown
 
 export interface Extender {
-    client: ExtendedClient
-    response: Replier
-    warn: Replier
-    error: Replier
+    response: TriggerReplier
+    warn: TriggerReplier
+    error: TriggerReplier
 }
-export type ExtendedMessage = Message & Extender & { member: GuildMember }
+export interface ExtendedMessage extends Message, Extender {
+    client: ExtendedClient
+    member: GuildMember
+}
 
 export type MessageTriggerFunction = (message: ExtendedMessage) => unknown
 
@@ -18,7 +20,9 @@ export type MessageTriggerType = {
     run: MessageTriggerFunction
 }
 
-export type ExtendedReaction = MessageReaction & Extender
+export interface ExtendedReaction extends MessageReaction, Extender {
+    client: ExtendedClient
+}
 
 export type ReactionTriggerFunction = (reaction: ExtendedReaction) => unknown
 

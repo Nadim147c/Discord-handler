@@ -1,5 +1,5 @@
 import { readdirSync } from "fs"
-import { ExtendedClient } from "../structures/Client"
+import ExtendedClient from "../structures/Client"
 import { MessageTriggerType, ReactionTriggerType } from "../typings/Triggers"
 
 export default async (client: ExtendedClient) => {

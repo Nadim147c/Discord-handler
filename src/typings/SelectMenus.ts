@@ -7,25 +7,37 @@ import {
     StringSelectMenuInteraction,
     UserSelectMenuInteraction,
 } from "discord.js"
-import { ExtendedClient } from "../structures/Client"
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Replier = (content: string, ephemeral?: boolean, seconds?: number) => any
+import ExtendedClient from "../structures/Client"
+import { InteractionReplier } from "./Commands"
 
 interface SelectMenuExtender {
-    member: GuildMember
-    client: ExtendedClient
     customValue?: string
-    response: Replier
-    warn: Replier
-    error: Replier
+    response: InteractionReplier
+    warn: InteractionReplier
+    error: InteractionReplier
 }
 
-export type ExtendedStringSelectMenu = StringSelectMenuInteraction & SelectMenuExtender
-export type ExtendedUserSelectMenu = UserSelectMenuInteraction & SelectMenuExtender
-export type ExtendedRoleSelectMenu = RoleSelectMenuInteraction & SelectMenuExtender
-export type ExtendedChannelSelectMenu = ChannelSelectMenuInteraction & SelectMenuExtender
-export type ExtendedAnySelectMenu = AnySelectMenuInteraction & SelectMenuExtender
+export interface ExtendedStringSelectMenu extends StringSelectMenuInteraction, SelectMenuExtender {
+    member: GuildMember
+    client: ExtendedClient
+}
+export interface ExtendedUserSelectMenu extends UserSelectMenuInteraction, SelectMenuExtender {
+    member: GuildMember
+    client: ExtendedClient
+}
+export interface ExtendedRoleSelectMenu extends RoleSelectMenuInteraction, SelectMenuExtender {
+    member: GuildMember
+    client: ExtendedClient
+}
+export interface ExtendedChannelSelectMenu extends ChannelSelectMenuInteraction, SelectMenuExtender {
+    member: GuildMember
+    client: ExtendedClient
+}
+export type ExtendedAnySelectMenu = AnySelectMenuInteraction &
+    SelectMenuExtender & {
+        member: GuildMember
+        client: ExtendedClient
+    }
 
 export type SelectMenuFunction<Interaction> = (interaction: Interaction) => unknown
 
@@ -47,3 +59,4 @@ export type StringSelectMenuType = SelectMenuType<"String", ExtendedStringSelect
 export type UserSelectMenuType = SelectMenuType<"User", ExtendedUserSelectMenu>
 export type RoleSelectMenuType = SelectMenuType<"Role", ExtendedRoleSelectMenu>
 export type ChannelSelectMenuType = SelectMenuType<"Channel", ExtendedChannelSelectMenu>
+export type SelectModule = StringSelectMenuType | UserSelectMenuType | RoleSelectMenuType | ChannelSelectMenuType

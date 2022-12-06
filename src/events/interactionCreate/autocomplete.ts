@@ -1,5 +1,5 @@
 import { logError } from "../../functions/log/logger"
-import { Event } from "../../structures/Event"
+import Event from "../../structures/Event"
 import { ExtendedAutoComplete } from "../../typings/Commands"
 
 export default new Event("interactionCreate", async (interaction: ExtendedAutoComplete) => {

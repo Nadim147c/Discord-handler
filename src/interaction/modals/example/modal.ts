@@ -1,4 +1,4 @@
-import { Modal } from "../../../structures/Modal"
+import Modal from "../../../structures/Modal"
 
 export default new Modal({
     id: "example",

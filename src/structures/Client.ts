@@ -1,19 +1,19 @@
 import { ApplicationCommand, ApplicationCommandData, Client, Collection, Partials } from "discord.js"
 import { readdirSync, statSync } from "fs"
-import { CommandType } from "../typings/Commands"
-import { ButtonType } from "../typings/Buttons"
-import {
+import type { CommandType } from "../typings/Commands"
+import type { ButtonType } from "../typings/Buttons"
+import type {
     ChannelSelectMenuType,
     RoleSelectMenuType,
     StringSelectMenuType,
     UserSelectMenuType,
 } from "../typings/SelectMenus"
-import { ModalType } from "../typings/Modals"
-import { TriggersType } from "../typings/Triggers"
-import { ContextMenuType } from "../typings/ContextMenus"
+import type { ModalType } from "../typings/Modals"
+import type { TriggersType } from "../typings/Triggers"
+import type { ContextMenuType } from "../typings/ContextMenus"
 import { logError, logSuccess } from "../functions/log/logger"
 
-export class ExtendedClient extends Client {
+export default class ExtendedClient extends Client {
     constructor() {
         super({
             intents: ["Guilds", "GuildMembers", "GuildMessageReactions", "GuildMessages", "MessageContent"],
@@ -22,9 +22,13 @@ export class ExtendedClient extends Client {
     }
 
     commands: Collection<string, CommandType> = new Collection()
+
     buttons: Collection<string, ButtonType> = new Collection()
+
     modals: Collection<string, ModalType> = new Collection()
+
     triggers: TriggersType = { message: new Collection(), reaction: new Collection() }
+
     contextMenus: ContextMenuType = { message: new Collection(), user: new Collection() }
 
     selectMenus = {
@@ -35,6 +39,7 @@ export class ExtendedClient extends Client {
     }
 
     commandData: Set<ApplicationCommandData> = new Set()
+
     commandTimeout: Collection<string, Collection<string, number>> = new Collection()
 
     async start() {
@@ -43,10 +48,12 @@ export class ExtendedClient extends Client {
         this.login(process.env.DISCORD)
     }
 
+    // eslint-disable-next-line class-methods-use-this
     async importFile(path: string) {
         return (await import(path).catch(logError))?.default
     }
 
+    // eslint-disable-next-line class-methods-use-this
     async isDir(path: string) {
         try {
             return statSync(path).isDirectory()

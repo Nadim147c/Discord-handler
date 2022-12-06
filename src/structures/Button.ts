@@ -1,6 +1,6 @@
 import { ButtonType } from "../typings/Buttons"
 
-export class Button {
+export default class Button {
     constructor(buttonOptions: ButtonType) {
         Object.assign(this, buttonOptions)
     }
