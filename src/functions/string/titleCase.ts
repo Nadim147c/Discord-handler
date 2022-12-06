@@ -1,4 +1,4 @@
-export const titleCase = (title: string) =>
+export default (title: string) =>
     title
         .toLowerCase()
         .replace(/( |_)+/g, " ")

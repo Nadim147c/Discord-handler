@@ -11,10 +11,20 @@ import {
     UserSelectMenuBuilder,
 } from "discord.js"
 
-export const createRow = (...components: (ButtonBuilder | UserSelectMenuBuilder | RoleSelectMenuBuilder | ChannelSelectMenuBuilder | StringSelectMenuBuilder)[]) =>
+export const createRow = (
+    ...components: (
+        | ButtonBuilder
+        | UserSelectMenuBuilder
+        | RoleSelectMenuBuilder
+        | ChannelSelectMenuBuilder
+        | StringSelectMenuBuilder
+    )[]
+) =>
     new ActionRowBuilder().setComponents(components) as
-    | ActionRowBuilder<ButtonBuilder>
-    | ActionRowBuilder<UserSelectMenuBuilder | RoleSelectMenuBuilder | ChannelSelectMenuBuilder | StringSelectMenuBuilder>
+        | ActionRowBuilder<ButtonBuilder>
+        | ActionRowBuilder<
+              UserSelectMenuBuilder | RoleSelectMenuBuilder | ChannelSelectMenuBuilder | StringSelectMenuBuilder
+          >
 
 const { Link, Secondary } = ButtonStyle
 
@@ -27,6 +37,7 @@ export const createButton = (
 ) => {
     const button = new ButtonBuilder().setStyle(style)
     if (label) button.setLabel(label)
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     style === Link ? button.setURL(customId) : button.setCustomId(customId)
     if (emoji) button.setEmoji(emoji)
     if (disabled) button.setDisabled(disabled)
@@ -52,5 +63,3 @@ export const createModalField = (
 }
 
 export const createModel = (title: string, customId: string) => new ModalBuilder().setTitle(title).setCustomId(customId)
-
-

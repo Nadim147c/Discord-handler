@@ -1,6 +1,6 @@
 import { MessageApplicationCommandData, UserApplicationCommandData } from "discord.js"
 import { readdirSync } from "fs"
-import { ExtendedClient } from "../structures/Client"
+import ExtendedClient from "../structures/Client"
 import { MessageContextMenuType, UserContextMenuType } from "../typings/ContextMenus"
 
 export default async (client: ExtendedClient) => {

@@ -1,5 +1,5 @@
 import { readdirSync } from "fs"
-import { ExtendedClient } from "../structures/Client"
+import ExtendedClient from "../structures/Client"
 import {
     ChannelSelectMenuType,
     RoleSelectMenuType,
@@ -15,10 +15,10 @@ export default async (client: ExtendedClient) => {
         readdirSync(path).forEach(async (file) => {
             if (!filter(file) && (await client.isDir(`${path}/${file}`))) return loader(`${path}/${file}`)
 
-            const select: StringSelectMenuType | UserSelectMenuType | RoleSelectMenuType | ChannelSelectMenuType =
-                await client.importFile(`${path}/${file}`)
+            type SelectModule = StringSelectMenuType | UserSelectMenuType | RoleSelectMenuType | ChannelSelectMenuType
 
-            /*eslint indent: [2, 4, {"SwitchCase": 1}]*/
+            const select: SelectModule = await client.importFile(`${path}/${file}`)
+
             switch (select.type) {
                 case "String":
                     client.selectMenus.string.set(select.id, select)
@@ -31,6 +31,8 @@ export default async (client: ExtendedClient) => {
                     break
                 case "Channel":
                     client.selectMenus.channel.set(select.id, select)
+                    break
+                default:
                     break
             }
         })

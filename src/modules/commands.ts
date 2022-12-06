@@ -1,6 +1,8 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 import { ApplicationCommandOption, ApplicationCommandOptionType, ChatInputApplicationCommandData } from "discord.js"
 import { readdirSync } from "fs"
-import { ExtendedClient } from "../structures/Client"
+import ExtendedClient from "../structures/Client"
 import { CommandType } from "../typings/Commands"
 
 export default async (client: ExtendedClient) => {
@@ -64,6 +66,7 @@ export default async (client: ExtendedClient) => {
                     data.options?.push(groupData)
                 }
             } else {
+                // eslint-disable-next-line no-await-in-loop
                 const command: CommandType = await client.importFile(basePath)
 
                 command.category = dir

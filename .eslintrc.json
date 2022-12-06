@@ -2,25 +2,34 @@
     "env": {
         "es2021": true
     },
-    "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "airbnb-base",
+        "airbnb-typescript/base",
+        "prettier"
+    ],
     "overrides": [],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
+        "project": "./tsconfig.json",
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
     "plugins": ["@typescript-eslint"],
     "rules": {
+        "@typescript-eslint/semi": "off",
+        "@typescript-eslint/quotes": "off",
+        "@typescript-eslint/indent": "off",
+        "object-curly-newline": "off",
+        "max-classes-per-file": "off",
+        "consistent-return": "off",
+        "max-len": ["error", { "code": 120 }],
         "linebreak-style": ["error", "windows"],
         "quotes": ["error", "double"],
         "semi": ["error", "never"],
-        "no-console": [
-            "warn",
-            {
-                "allow": ["warn"]
-            }
-        ],
-        "indent": ["error"]
+        "no-console": ["warn", { "allow": ["warn"] }],
+        "indent": ["error", 4, { "SwitchCase": 1 }]
     },
     "ignorePatterns": ["dist"]
 }

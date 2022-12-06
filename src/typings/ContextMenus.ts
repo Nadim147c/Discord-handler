@@ -7,16 +7,15 @@ import {
     PermissionsString,
     UserContextMenuCommandInteraction,
 } from "discord.js"
-import { ExtendedClient } from "../structures/Client"
-
-export type Replier = (content: string, ephemeral?: boolean, seconds?: number) => unknown
+import ExtendedClient from "../structures/Client"
+import { InteractionReplier } from "./Commands"
 
 export interface ExtendedMessageContextMenu extends MessageContextMenuCommandInteraction {
     member: GuildMember
     client: ExtendedClient
-    response: Replier
-    warn: Replier
-    error: Replier
+    response: InteractionReplier
+    warn: InteractionReplier
+    error: InteractionReplier
 }
 
 export type MessageContextMenuFunction = (interaction: ExtendedMessageContextMenu) => unknown
@@ -31,9 +30,9 @@ export type MessageContextMenuType = {
 export interface ExtendedUserContextMenu extends UserContextMenuCommandInteraction {
     member: GuildMember
     client: ExtendedClient
-    response: Replier
-    warn: Replier
-    error: Replier
+    response: InteractionReplier
+    warn: InteractionReplier
+    error: InteractionReplier
 }
 
 export type UserContextMenuFunction = (interaction: ExtendedUserContextMenu) => unknown

@@ -1,7 +1,7 @@
 import { ClientEvents } from "discord.js"
 import { readdirSync } from "fs"
-import { ExtendedClient } from "../structures/Client"
-import { Event } from "../structures/Event"
+import ExtendedClient from "../structures/Client"
+import Event from "../structures/Event"
 
 export default async (client: ExtendedClient) => {
     const pathFiles = `${__dirname}/../events/`

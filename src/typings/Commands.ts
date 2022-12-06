@@ -7,17 +7,17 @@ import {
     GuildMember,
     PermissionsString,
 } from "discord.js"
-import { ExtendedClient } from "../structures/Client"
+import ExtendedClient from "../structures/Client"
 
-export type Replier = (content: string, ephemeral?: boolean, seconds?: number) => unknown
+export type InteractionReplier = (content: string, ephemeral?: boolean, seconds?: number) => unknown
 
 export interface ExtendedCommand extends CommandInteraction {
     options: CommandInteractionOptionResolver
     member: GuildMember
     client: ExtendedClient
-    response: Replier
-    warn: Replier
-    error: Replier
+    response: InteractionReplier
+    warn: InteractionReplier
+    error: InteractionReplier
 }
 
 export interface ExtendedAutoComplete extends AutocompleteInteraction {

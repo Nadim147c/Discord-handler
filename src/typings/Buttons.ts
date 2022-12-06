@@ -1,15 +1,14 @@
 import { ButtonInteraction, GuildMember, PermissionsString } from "discord.js"
-import { ExtendedClient } from "../structures/Client"
-
-export type Replier = (content: string, ephemeral?: boolean, seconds?: number) => unknown
+import ExtendedClient from "../structures/Client"
+import { InteractionReplier } from "./Commands"
 
 export interface ExtendedButton extends ButtonInteraction {
     member: GuildMember
     client: ExtendedClient
     customValue?: string
-    response: Replier
-    warn: Replier
-    error: Replier
+    response: InteractionReplier
+    warn: InteractionReplier
+    error: InteractionReplier
 }
 
 export type ButtonFunction = (interaction: ExtendedButton) => unknown

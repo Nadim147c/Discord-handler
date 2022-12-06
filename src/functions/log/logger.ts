@@ -1,6 +1,6 @@
 import chalk from "chalk"
 import { DateResolvable, EmbedBuilder, Guild, WebhookClient } from "discord.js"
-import { ExtendedClient } from "../../structures/Client"
+import type ExtendedClient from "../../structures/Client"
 import { getDynamicTime } from "../discord/getDynamicTime"
 
 const detailedTime = (date: DateResolvable) =>
@@ -18,10 +18,10 @@ export const LogStart = (client: ExtendedClient) => {
 
     const { guilds, user } = client
 
-    const memberCount = guilds.cache.reduce((a, { memberCount }) => a + memberCount, 0)
+    const totalMembers = guilds.cache.reduce((a, { memberCount }) => a + memberCount, 0)
     const guildCount = guilds.cache.size
 
-    const description = `Time: ${detailedTime(new Date())}\nMembers: ${memberCount}\nGuilds: ${guildCount}\nClient: [${
+    const description = `Time: ${detailedTime(new Date())}\nMembers: ${totalMembers}\nGuilds: ${guildCount}\nClient: [${
         user.username
     }](https://discord.com/developers/applications/${user.id}/bot)`
 
@@ -45,7 +45,7 @@ export const logError = (error: Error) => {
     if (error.stack) {
         const des = error.stack
             .split("\n")
-            .map((x) => "```" + x.trim() + "```")
+            .map((x) => `\`\`\`${x.trim()}\`\`\``)
             .join("\n")
 
         embed.setDescription(des)
@@ -58,6 +58,7 @@ export const logError = (error: Error) => {
 }
 
 export const guildLog = (guild: Guild, event: "CREATE" | "DELETE") => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     event === "CREATE" ? logSuccess(`Guild Create: ${guild.name}`) : LogFail(`Guild Remove: ${guild.name}`)
 
     if (!process.env.GUILDS) return

@@ -1,7 +1,7 @@
 import { codeBlock, EmbedBuilder, EmbedField } from "discord.js"
 import { color } from "../../../config"
-import { Command } from "../../../structures/Command"
-import { CommandType } from "../../../typings/Commands"
+import Command from "../../../structures/Command"
+import type { CommandType } from "../../../typings/Commands"
 
 // A sub commands of help
 export default new Command({

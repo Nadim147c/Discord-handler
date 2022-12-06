@@ -1,6 +1,6 @@
 import { ModalType } from "../typings/Modals"
 
-export class Modal {
+export default class Modal {
     constructor(modalOptions: ModalType) {
         Object.assign(this, modalOptions)
     }

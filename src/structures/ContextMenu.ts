@@ -1,5 +1,5 @@
 import { ApplicationCommandType } from "discord.js"
-import { MessageContextMenuType, UserContextMenuType } from "../typings/ContextMenus"
+import type { MessageContextMenuType, UserContextMenuType } from "../typings/ContextMenus"
 
 export class MessageContentMenu {
     constructor(options: MessageContextMenuType) {

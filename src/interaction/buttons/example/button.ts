@@ -1,4 +1,4 @@
-import { Button } from "../../../structures/Button"
+import Button from "../../../structures/Button"
 
 export default new Button({
     id: "example",
