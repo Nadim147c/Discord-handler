@@ -1,42 +1,36 @@
-import { readdirSync } from "fs"
-import ExtendedClient from "../structures/Client"
-import {
+import type ExtendedClient from "../structures/Client"
+import type {
     ChannelSelectMenuType,
     RoleSelectMenuType,
     StringSelectMenuType,
     UserSelectMenuType,
 } from "../typings/SelectMenus"
 
+type SelectModule = StringSelectMenuType | UserSelectMenuType | RoleSelectMenuType | ChannelSelectMenuType
+
 export default async (client: ExtendedClient) => {
-    const pathFiles = `${__dirname}/../interaction/select-menus`
-    const filter = (file: string) => file.endsWith(".ts") || file.endsWith(".js")
+    const path = `${__dirname}/../interaction/select-menus`
 
-    async function loader(path: string) {
-        readdirSync(path).forEach(async (file) => {
-            if (!filter(file) && (await client.isDir(`${path}/${file}`))) return loader(`${path}/${file}`)
+    const files = await client.getFiles(path)
 
-            type SelectModule = StringSelectMenuType | UserSelectMenuType | RoleSelectMenuType | ChannelSelectMenuType
+    const selects: SelectModule[] = await Promise.all(files.map((file) => client.importFile(file)))
 
-            const select: SelectModule = await client.importFile(`${path}/${file}`)
-
-            switch (select.type) {
-                case "String":
-                    client.selectMenus.string.set(select.id, select)
-                    break
-                case "User":
-                    client.selectMenus.user.set(select.id, select)
-                    break
-                case "Role":
-                    client.selectMenus.role.set(select.id, select)
-                    break
-                case "Channel":
-                    client.selectMenus.channel.set(select.id, select)
-                    break
-                default:
-                    break
-            }
-        })
-    }
-
-    loader(pathFiles)
+    selects.forEach((select) => {
+        switch (select.type) {
+            case "String":
+                client.selectMenus.string.set(select.id, select)
+                break
+            case "User":
+                client.selectMenus.user.set(select.id, select)
+                break
+            case "Role":
+                client.selectMenus.role.set(select.id, select)
+                break
+            case "Channel":
+                client.selectMenus.channel.set(select.id, select)
+                break
+            default:
+                break
+        }
+    })
 }
