@@ -23,6 +23,7 @@
         "@typescript-eslint/indent": "off",
         "object-curly-newline": "off",
         "max-classes-per-file": "off",
+        "no-plusplus": "off",
         "consistent-return": "off",
         "max-len": ["error", { "code": 120 }],
         "linebreak-style": ["error", "windows"],

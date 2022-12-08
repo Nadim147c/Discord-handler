@@ -1,19 +1,13 @@
 import { ClientEvents } from "discord.js"
-import { readdirSync } from "fs"
-import ExtendedClient from "../structures/Client"
-import Event from "../structures/Event"
+import type ExtendedClient from "../structures/Client"
+import type Event from "../structures/Event"
 
 export default async (client: ExtendedClient) => {
-    const pathFiles = `${__dirname}/../events/`
-    const filter = (file: string) => file.endsWith(".ts") || file.endsWith(".js")
+    const path = `${__dirname}/../events/`
 
-    async function starter(path: string) {
-        readdirSync(path).forEach(async (file) => {
-            if (!filter(file) && (await client.isDir(`${path}/${file}`))) return starter(`${path}/${file}`)
-            const event: Event<keyof ClientEvents> = await client.importFile(`${path}/${file}`)
-            client.on(event.event, event.execute)
-        })
-    }
+    const files = await client.getFiles(path)
 
-    starter(pathFiles)
+    const events: Event<keyof ClientEvents>[] = await Promise.all(files.map((file) => client.importFile(file)))
+
+    events.forEach((event) => client.on(event.event, event.execute))
 }

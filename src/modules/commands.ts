@@ -16,6 +16,7 @@ type CommandPathInfo = {
     subName: string
     rootName: string
 }
+
 type CommandData = Collection<string, ChatInputApplicationCommandData>
 
 const path = `${__dirname}/../commands/`
@@ -82,6 +83,7 @@ function setCommandData(info: CommandPathInfo, module: CommandType, collection: 
         if (!subcommand) commandData.options.push(Object.assign(module.data, { type: OptionType.Subcommand }))
 
         collection.set(info.subName, commandData)
+
         return
     }
 
@@ -93,20 +95,21 @@ function setCommandData(info: CommandPathInfo, module: CommandType, collection: 
 export default async (client: ExtendedClient) => {
     async function registerCommands(_, files: string[]) {
         const commandDataCollection: CommandData = new Collection()
+        const pathInfos = files.map((file) => extractInfoFromPath(file))
 
-        // eslint-disable-next-line no-restricted-syntax
-        for await (const file of files) {
-            const info = extractInfoFromPath(file)
+        const modules: CommandType[] = await Promise.all(pathInfos.map((info) => client.importFile(info.path)))
 
-            const module: CommandType = await client.importFile(info.path)
+        for (let i = 0; i < modules.length; i++) {
+            const pathInfo = pathInfos[i]
+            const module = modules[i]
 
-            module.category = info.category
+            module.category = pathInfo.category
 
-            const identifier = [info.rootName, info.subName, module.data.name].filter((x) => x).join("-")
+            const identifier = [pathInfo.rootName, pathInfo.subName, module.data.name].filter((x) => x).join("-")
 
             client.commands.set(identifier, module)
 
-            setCommandData(info, module, commandDataCollection)
+            setCommandData(pathInfo, module, commandDataCollection)
         }
 
         commandDataCollection.forEach((x) => client.commandData.add(x))

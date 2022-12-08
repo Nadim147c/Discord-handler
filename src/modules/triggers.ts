@@ -1,25 +1,24 @@
-import { readdirSync } from "fs"
-import ExtendedClient from "../structures/Client"
-import { MessageTriggerType, ReactionTriggerType } from "../typings/Triggers"
+import type ExtendedClient from "../structures/Client"
+import type { MessageTriggerType, ReactionTriggerType } from "../typings/Triggers"
 
 export default async (client: ExtendedClient) => {
     const messagePath = `${__dirname}/../triggers/messages`
     const reactionPath = `${__dirname}/../triggers/reactions`
-    const filter = (file: string) => file.endsWith(".ts") || file.endsWith(".js")
 
     async function messageLoader(path: string) {
-        readdirSync(path).forEach(async (file) => {
-            if (!filter(file) && (await client.isDir(`${path}/${file}`))) return messageLoader(`${path}/${file}`)
-            const module: MessageTriggerType = await client.importFile(`${path}/${file}`)
-            client.triggers.message.set(module.content, module)
-        })
+        const files = await client.getFiles(path)
+
+        const modules: MessageTriggerType[] = await Promise.all(files.map((file) => client.importFile(file)))
+
+        modules.forEach((module) => client.triggers.message.set(module.content, module))
     }
+
     async function reactionLoader(path: string) {
-        readdirSync(path).forEach(async (file) => {
-            if (!filter(file) && (await client.isDir(`${path}/${file}`))) return reactionLoader(`${path}/${file}`)
-            const module: ReactionTriggerType = await client.importFile(`${path}/${file}`)
-            client.triggers.reaction.set(module.emoji, module)
-        })
+        const files = await client.getFiles(path)
+
+        const modules: ReactionTriggerType[] = await Promise.all(files.map((file) => client.importFile(file)))
+
+        modules.forEach((module) => client.triggers.reaction.set(module.emoji, module))
     }
 
     messageLoader(messagePath)

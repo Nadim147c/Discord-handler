@@ -1,5 +1,6 @@
 import { ApplicationCommand, ApplicationCommandData, Client, Collection, Partials } from "discord.js"
-import { readdirSync, statSync } from "fs"
+import { glob } from "glob"
+import { promisify } from "util"
 import type { CommandType } from "../typings/Commands"
 import type { ButtonType } from "../typings/Buttons"
 import type {
@@ -42,6 +43,8 @@ export default class ExtendedClient extends Client {
 
     commandTimeout: Collection<string, Collection<string, number>> = new Collection()
 
+    globPromise = promisify(glob)
+
     async start() {
         await this.loadModules()
 
@@ -53,19 +56,16 @@ export default class ExtendedClient extends Client {
         return (await import(path).catch(logError))?.default
     }
 
-    // eslint-disable-next-line class-methods-use-this
-    async isDir(path: string) {
-        try {
-            return statSync(path).isDirectory()
-        } catch (error) {
-            return false
-        }
+    async getFiles(path: string) {
+        const match = "/**/**/**/**/*{.js,.ts}"
+        const files = await this.globPromise(path + match, { windowsPathsNoEscape: true })
+        return files
     }
 
     async loadModules() {
-        const filter = (file: string) => file.endsWith(".ts") || file.endsWith(".js")
-        const modules = readdirSync(`${__dirname}/../modules/`).filter(filter)
-        modules.forEach(async (file) => (await this.importFile(`${__dirname}/../modules/${file}`))(this))
+        const files = await this.getFiles(`${__dirname}/../modules/`)
+        const modules = await Promise.all(files.map((file) => this.importFile(file)))
+        modules.forEach((module) => module(this))
     }
 
     async registerCommands(guildId?: string) {
