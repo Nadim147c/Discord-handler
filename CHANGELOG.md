@@ -1,3 +1,15 @@
+# [0.2.0](https://github.com/Nadim147c/Discord-handler/compare/v0.1.1...v0.2.0) (2022-12-09)
+
+
+### Features
+
+* add `MentionableSelectMenu` type ([1fd886e](https://github.com/Nadim147c/Discord-handler/commit/1fd886e18e1961ac6a8de6d465a4cb8b721f1b11))
+* add example for mentionable select menu ([dc650d4](https://github.com/Nadim147c/Discord-handler/commit/dc650d40501cf1f55f067a07e3ea2695ec633197))
+* add mentionable module ([9599f41](https://github.com/Nadim147c/Discord-handler/commit/9599f41e6d91327b65d0c525eab462544a0d2bdc))
+* added `MentionableSelectMenu` class ([9246c57](https://github.com/Nadim147c/Discord-handler/commit/9246c5718c9a4edc5729895ffefd729a7631a42f))
+
+
+
 ## [0.1.1](https://github.com/Nadim147c/Discord-handler/compare/v0.1.0...v0.1.1) (2022-12-09)
 
 
