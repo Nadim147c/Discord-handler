@@ -1,38 +1,38 @@
 {
-    "name": "discord.js-handler",
-    "version": "0.1.0",
-    "description": "A complete discord.js typescript handler.",
-    "main": "src/index.ts",
-    "scripts": {
-        "start": "node dist/.",
-        "nodemon": "nodemon dist/.",
-        "lint": "eslint . --ext .js,.ts",
-        "ts-start": "ts-node src/.",
-        "dev": "ts-node-dev src/.",
-        "build": "tsc",
-        "watch": "tsc -w"
-    },
-    "author": "3n123",
-    "license": "MIT",
-    "devDependencies": {
-        "@types/glob": "^8.0.0",
-        "@types/node": "^18.7.16",
-        "@typescript-eslint/eslint-plugin": "^5.13.0",
-        "@typescript-eslint/parser": "^5.0.0",
-        "eslint": "^8.23.0",
-        "eslint-config-airbnb": "^19.0.4",
-        "eslint-config-airbnb-typescript": "^17.0.0",
-        "eslint-config-prettier": "^8.5.0",
-        "eslint-plugin-import": "^2.26.0",
-        "nodemon": "^2.0.19",
-        "ts-node": "^10.9.1",
-        "ts-node-dev": "^2.0.0",
-        "typescript": "^4.9.3"
-    },
-    "dependencies": {
-        "chalk": "^4.1.2",
-        "discord.js": "^14.7.1",
-        "dotenv": "^16.0.3",
-        "glob": "^8.0.3"
-    }
+  "name": "discord.js-handler",
+  "version": "0.1.1",
+  "description": "A complete discord.js typescript handler.",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "node dist/.",
+    "nodemon": "nodemon dist/.",
+    "lint": "eslint . --ext .js,.ts",
+    "ts-start": "ts-node src/.",
+    "dev": "ts-node-dev src/.",
+    "build": "tsc",
+    "watch": "tsc -w"
+  },
+  "author": "3n123",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/glob": "^8.0.0",
+    "@types/node": "^18.7.16",
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "eslint": "^8.23.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "nodemon": "^2.0.19",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.9.3"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "discord.js": "^14.7.1",
+    "dotenv": "^16.0.3",
+    "glob": "^8.0.3"
+  }
 }
