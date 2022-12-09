@@ -65,7 +65,7 @@ export type StringSelectMenuType = SelectMenuType<"String", ExtendedStringSelect
 export type UserSelectMenuType = SelectMenuType<"User", ExtendedUserSelectMenu>
 export type RoleSelectMenuType = SelectMenuType<"Role", ExtendedRoleSelectMenu>
 export type ChannelSelectMenuType = SelectMenuType<"Channel", ExtendedChannelSelectMenu>
-export type MentionableSelectMenuType = SelectMenuType<"Mentionable", ExtendedChannelSelectMenu>
+export type MentionableSelectMenuType = SelectMenuType<"Mentionable", ExtendedMentionableSelectMenu>
 
 export type SelectModule =
     | StringSelectMenuType
