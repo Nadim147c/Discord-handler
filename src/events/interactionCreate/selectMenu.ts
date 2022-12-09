@@ -2,9 +2,10 @@ import { inlineCode } from "discord.js"
 import { interactionRepliers } from "../../functions/discord/repliers"
 import { logError } from "../../functions/log/logger"
 import Event from "../../structures/Event"
-import {
+import type {
     ChannelSelectMenuType,
     ExtendedAnySelectMenu,
+    MentionableSelectMenuType,
     RoleSelectMenuType,
     StringSelectMenuType,
     UserSelectMenuType,
@@ -24,7 +25,12 @@ export default new Event("interactionCreate", async (interaction: ExtendedAnySel
     interaction.customValue = customValue
 
     function checkPermission(
-        module: StringSelectMenuType | UserSelectMenuType | RoleSelectMenuType | ChannelSelectMenuType,
+        module:
+            | StringSelectMenuType
+            | UserSelectMenuType
+            | RoleSelectMenuType
+            | ChannelSelectMenuType
+            | MentionableSelectMenuType,
     ): boolean {
         const { member } = interaction
 
@@ -47,7 +53,8 @@ export default new Event("interactionCreate", async (interaction: ExtendedAnySel
         } catch (error) {
             logError(error)
         }
-    } else if (interaction.isUserSelectMenu()) {
+    }
+    if (interaction.isUserSelectMenu()) {
         const module = interaction.client.selectMenus.user.get(key.replace(/[0-4]$/, ""))
 
         if (!module) return interaction.error("oops! There is any annoying error.")
@@ -73,6 +80,19 @@ export default new Event("interactionCreate", async (interaction: ExtendedAnySel
     }
     if (interaction.isChannelSelectMenu()) {
         const module = interaction.client.selectMenus.channel.get(key.replace(/[0-4]$/, ""))
+
+        if (!module) return interaction.error("oops! There is any annoying error.")
+        if (checkPermission(module)) return
+
+        try {
+            module.run(interaction)
+        } catch (error) {
+            logError(error)
+        }
+    }
+
+    if (interaction.isMentionableSelectMenu()) {
+        const module = interaction.client.selectMenus.mentionable.get(key.replace(/[0-4]$/, ""))
 
         if (!module) return interaction.error("oops! There is any annoying error.")
         if (checkPermission(module)) return

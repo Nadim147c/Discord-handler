@@ -1,6 +1,7 @@
 import {
     ActionRowBuilder,
     ChannelSelectMenuBuilder,
+    MentionableSelectMenuBuilder,
     RoleSelectMenuBuilder,
     StringSelectMenuBuilder,
     StringSelectMenuOptionBuilder,
@@ -17,7 +18,11 @@ export default new Command({
     async run(command) {
         const ROW = () =>
             new ActionRowBuilder<
-                UserSelectMenuBuilder | RoleSelectMenuBuilder | ChannelSelectMenuBuilder | StringSelectMenuBuilder
+                | UserSelectMenuBuilder
+                | RoleSelectMenuBuilder
+                | ChannelSelectMenuBuilder
+                | StringSelectMenuBuilder
+                | MentionableSelectMenuBuilder
             >()
         const OPTION = (label: string, value: string, emoji: unknown) =>
             new StringSelectMenuOptionBuilder().setLabel(label).setValue(value).setEmoji(emoji)
@@ -33,6 +38,12 @@ export default new Command({
                 new ChannelSelectMenuBuilder()
                     .setCustomId("channel")
                     .setPlaceholder("Channel select menu")
+                    .setMaxValues(1),
+            ),
+            ROW().addComponents(
+                new MentionableSelectMenuBuilder()
+                    .setCustomId("mentionable")
+                    .setPlaceholder("Mentionable select menu")
                     .setMaxValues(1),
             ),
             ROW().addComponents(
