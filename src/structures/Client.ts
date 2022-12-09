@@ -5,6 +5,7 @@ import type { CommandType } from "../typings/Commands"
 import type { ButtonType } from "../typings/Buttons"
 import type {
     ChannelSelectMenuType,
+    MentionableSelectMenuType,
     RoleSelectMenuType,
     StringSelectMenuType,
     UserSelectMenuType,
@@ -37,6 +38,7 @@ export default class ExtendedClient extends Client {
         user: new Collection() as Collection<string, UserSelectMenuType>,
         role: new Collection() as Collection<string, RoleSelectMenuType>,
         channel: new Collection() as Collection<string, ChannelSelectMenuType>,
+        mentionable: new Collection() as Collection<string, MentionableSelectMenuType>,
     }
 
     commandData: Set<ApplicationCommandData> = new Set()
