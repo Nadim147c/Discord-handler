@@ -1,5 +1,6 @@
 import {
     ChannelSelectMenuType,
+    MentionableSelectMenuType,
     RoleSelectMenuType,
     StringSelectMenuType,
     UserSelectMenuType,
@@ -16,13 +17,21 @@ export class UserSelectMenu {
         Object.assign(this, selectOptions, { type: "User" } as UserSelectMenuType)
     }
 }
+
 export class RoleSelectMenu {
     constructor(selectOptions: RoleSelectMenuType) {
         Object.assign(this, selectOptions, { type: "Role" } as RoleSelectMenuType)
     }
 }
+
 export class ChannelSelectMenu {
     constructor(selectOptions: ChannelSelectMenuType) {
         Object.assign(this, selectOptions, { type: "Channel" } as ChannelSelectMenuType)
+    }
+}
+
+export class MentionableSelectMenu {
+    constructor(selectOptions: MentionableSelectMenuType) {
+        Object.assign(this, selectOptions, { type: "Mentionable" } as MentionableSelectMenuType)
     }
 }
