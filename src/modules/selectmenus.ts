@@ -1,12 +1,18 @@
 import type ExtendedClient from "../structures/Client"
 import type {
     ChannelSelectMenuType,
+    MentionableSelectMenuType,
     RoleSelectMenuType,
     StringSelectMenuType,
     UserSelectMenuType,
 } from "../typings/SelectMenus"
 
-type SelectModule = StringSelectMenuType | UserSelectMenuType | RoleSelectMenuType | ChannelSelectMenuType
+type SelectModule =
+    | StringSelectMenuType
+    | UserSelectMenuType
+    | RoleSelectMenuType
+    | ChannelSelectMenuType
+    | MentionableSelectMenuType
 
 export default async (client: ExtendedClient) => {
     const path = `${__dirname}/../interaction/select-menus`
@@ -28,6 +34,9 @@ export default async (client: ExtendedClient) => {
                 break
             case "Channel":
                 client.selectMenus.channel.set(select.id, select)
+                break
+            case "Mentionable":
+                client.selectMenus.mentionable.set(select.id, select)
                 break
             default:
                 break
