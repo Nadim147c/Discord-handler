@@ -1,3 +1,12 @@
+## [0.2.2](https://github.com/Nadim147c/Discord-handler/compare/v0.2.1...v0.2.2) (2022-12-11)
+
+
+### Bug Fixes
+
+* Add new mantainted release action. ([a8601b7](https://github.com/Nadim147c/Discord-handler/commit/a8601b7b0996324bc928d124a6adeea59417e2c3))
+
+
+
 ## [0.2.1](https://github.com/Nadim147c/Discord-handler/compare/v0.2.0...v0.2.1) (2022-12-11)
 
 
