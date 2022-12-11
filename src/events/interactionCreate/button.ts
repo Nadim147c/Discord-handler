@@ -9,9 +9,6 @@ export default new Event("interactionCreate", async (interaction: ExtendedButton
 
     Object.assign(interaction, interactionRepliers)
 
-    // For the buttons that are collect through messageComponent collector
-    if (interaction.customId.startsWith("t:")) return
-
     const [key, customValue] = interaction.customId.split(":")
 
     // eslint-disable-next-line no-param-reassign
@@ -19,7 +16,7 @@ export default new Event("interactionCreate", async (interaction: ExtendedButton
 
     const module = interaction.client.buttons.get(key)
 
-    if (!module) return interaction.error("oops! There is any annoying error.")
+    if (!module) return
 
     const { member } = interaction
 
