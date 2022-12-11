@@ -169,6 +169,10 @@ All `Button`, `Select Menu`, `Modal` and `Context Menu` handlers are available i
 
 > Note: [`autocomplete`](#auto-complete) interactions are handled from command handlers.
 
+#### Select Menus
+
+`selectmenuInteraction` has different types. [`String`, `User`, `Role`, `Channel`, `Mentionable`] There're different **class**es for different types of select menu.
+
 ### Files Structure
 
 ```ts
