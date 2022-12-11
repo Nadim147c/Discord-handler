@@ -167,23 +167,6 @@ All `Button`, `Select Menu`, `Modal` and `Context Menu` handlers are available i
 
 -   You get `response`, `warn` and `error` method for quickly replying to users. (same as [`commands`](#methods))
 
-### Escape Handling
-
--   You can use `t:` in front of custom id of the components to avoid handling. This is important for handling `Modals`, `Buttons` and `Select Menus` by using `awaitModalSubmit`, `awaitMessageComponent` or `MessageComponentCollector`
-
-```ts
-export default new Command({
-    data: { ... },
-    async run(interaction) {
-        const button = new ButtonBuilder()....setCustomId("t:confirm")
-        const components = [...(button)]
-        const message = await interaction.reply({ components }) as Message
-        // Button handler won't give a missing module error
-        const confirmation = await message.awaitMessageComponent({ ... })
-    },
-})
-```
-
 > Note: [`autocomplete`](#auto-complete) interactions are handled from command handlers.
 
 ### Files Structure
