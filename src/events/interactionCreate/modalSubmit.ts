@@ -7,9 +7,6 @@ import { ExtendedModal } from "../../typings/Modals"
 export default new Event("interactionCreate", async (interaction: ExtendedModal) => {
     if (!interaction.isModalSubmit()) return
 
-    // For the buttons that are collect through messageComponent collector
-    if (interaction.customId.startsWith("t:")) return
-
     const [key, customValue] = interaction.customId.split(":")
 
     // eslint-disable-next-line no-param-reassign
@@ -19,7 +16,7 @@ export default new Event("interactionCreate", async (interaction: ExtendedModal)
 
     const module = interaction.client.modals.get(key)
 
-    if (!module) return interaction.error("oops! There is any annoying error.")
+    if (!module) return
 
     const { member } = interaction
 

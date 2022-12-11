@@ -1,3 +1,12 @@
+## [0.2.1](https://github.com/Nadim147c/Discord-handler/compare/v0.2.0...v0.2.1) (2022-12-11)
+
+
+### Bug Fixes
+
+* Escape handling by default ([689387e](https://github.com/Nadim147c/Discord-handler/commit/689387e787f44b771efce1942d51b4b6e6db40f7))
+
+
+
 # [0.2.0](https://github.com/Nadim147c/Discord-handler/compare/v0.1.1...v0.2.0) (2022-12-09)
 
 
