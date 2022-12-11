@@ -2,105 +2,79 @@ import { inlineCode } from "discord.js"
 import { interactionRepliers } from "../../functions/discord/repliers"
 import { logError } from "../../functions/log/logger"
 import Event from "../../structures/Event"
-import type {
+import {
     ChannelSelectMenuType,
-    ExtendedAnySelectMenu,
+    ExtendedStringSelectMenu,
+    ExtendedUserSelectMenu,
     MentionableSelectMenuType,
     RoleSelectMenuType,
     StringSelectMenuType,
     UserSelectMenuType,
+    ExtendedChannelSelectMenu,
+    ExtendedMentionableSelectMenu,
+    ExtendedRoleSelectMenu,
 } from "../../typings/SelectMenus"
 
-export default new Event("interactionCreate", async (interaction: ExtendedAnySelectMenu) => {
+type ModuleType =
+    | StringSelectMenuType
+    | UserSelectMenuType
+    | RoleSelectMenuType
+    | ChannelSelectMenuType
+    | MentionableSelectMenuType
+type InteractionType =
+    | ExtendedStringSelectMenu
+    | ExtendedUserSelectMenu
+    | ExtendedRoleSelectMenu
+    | ExtendedChannelSelectMenu
+    | ExtendedMentionableSelectMenu
+
+export default new Event("interactionCreate", async (interaction: InteractionType) => {
     if (!interaction.isAnySelectMenu()) return
 
     Object.assign(interaction, interactionRepliers)
-
-    // For the buttons that are collect through messageComponent collector
-    if (interaction.customId.startsWith("t:")) return
 
     const [key, customValue] = interaction.customId.split(":")
 
     // eslint-disable-next-line no-param-reassign
     interaction.customValue = customValue
 
-    function checkPermission(
-        module:
-            | StringSelectMenuType
-            | UserSelectMenuType
-            | RoleSelectMenuType
-            | ChannelSelectMenuType
-            | MentionableSelectMenuType,
-    ): boolean {
-        const { member } = interaction
+    let module: ModuleType
 
-        if (module.permissions?.length && !member.permissions.has(module.permissions)) {
-            const permissions = module.permissions.map((x) => inlineCode(x)).join(", ")
-            interaction.warn(`You need following permissions to use this dropdown menu.\n${permissions}`)
-            return true
-        }
-        return false
+    switch (true) {
+        case interaction.isStringSelectMenu():
+            module = interaction.client.selectMenus.string.get(key.replace(/[0-4]$/, ""))
+            break
+        case interaction.isUserSelectMenu():
+            module = interaction.client.selectMenus.user.get(key.replace(/[0-4]$/, ""))
+            break
+        case interaction.isRoleSelectMenu():
+            module = interaction.client.selectMenus.role.get(key.replace(/[0-4]$/, ""))
+            break
+        case interaction.isChannelSelectMenu():
+            module = interaction.client.selectMenus.channel.get(key.replace(/[0-4]$/, ""))
+            break
+        case interaction.isMentionableSelectMenu():
+            module = interaction.client.selectMenus.mentionable.get(key.replace(/[0-4]$/, ""))
+            break
+
+        default:
+            break
     }
 
-    if (interaction.isStringSelectMenu()) {
-        const module = interaction.client.selectMenus.string.get(key.replace(/[0-4]$/, ""))
+    if (!module) return
 
-        if (!module) return interaction.error("oops! There is any annoying error.")
-        if (checkPermission(module)) return
+    const { member } = interaction
 
-        try {
-            module.run(interaction)
-        } catch (error) {
-            logError(error)
-        }
-    }
-    if (interaction.isUserSelectMenu()) {
-        const module = interaction.client.selectMenus.user.get(key.replace(/[0-4]$/, ""))
-
-        if (!module) return interaction.error("oops! There is any annoying error.")
-        if (checkPermission(module)) return
-
-        try {
-            module.run(interaction)
-        } catch (error) {
-            logError(error)
-        }
-    }
-    if (interaction.isRoleSelectMenu()) {
-        const module = interaction.client.selectMenus.role.get(key.replace(/[0-4]$/, ""))
-
-        if (!module) return interaction.error("oops! There is any annoying error.")
-        if (checkPermission(module)) return
-
-        try {
-            module.run(interaction)
-        } catch (error) {
-            logError(error)
-        }
-    }
-    if (interaction.isChannelSelectMenu()) {
-        const module = interaction.client.selectMenus.channel.get(key.replace(/[0-4]$/, ""))
-
-        if (!module) return interaction.error("oops! There is any annoying error.")
-        if (checkPermission(module)) return
-
-        try {
-            module.run(interaction)
-        } catch (error) {
-            logError(error)
-        }
+    if (module.permissions?.length && !member.permissions.has(module.permissions)) {
+        const permissions = module.permissions.map((x) => inlineCode(x)).join(", ")
+        interaction.warn(`You need following permissions to use this dropdown menu.\n${permissions}`)
+        return
     }
 
-    if (interaction.isMentionableSelectMenu()) {
-        const module = interaction.client.selectMenus.mentionable.get(key.replace(/[0-4]$/, ""))
-
-        if (!module) return interaction.error("oops! There is any annoying error.")
-        if (checkPermission(module)) return
-
-        try {
-            module.run(interaction)
-        } catch (error) {
-            logError(error)
-        }
+    try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        module.run(interaction as any)
+    } catch (error) {
+        logError(error)
     }
 })
