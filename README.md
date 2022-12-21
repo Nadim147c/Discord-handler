@@ -35,7 +35,7 @@ A complete discord.js typescript handler.
 
 ```bash
 git clone https://github.com/3N147/Discord-handler.git
-
+cd Discord-handler
 ```
 
 Install all dependencies. Using `npm`:
