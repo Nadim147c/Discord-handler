@@ -46,16 +46,18 @@ git clone https://github.com/3N147/Discord-handler.git
 cd Discord-handler
 ```
 
-Install all dependencies. Using `npm`:
+Install all dependencies and start as `dev`. Using `npm`:
 
 ```bash
 npm i
+npm run dev
 ```
 
 or using `yarn`:
 
 ```bash
 yarn
+yarn dev
 ```
 
 ### Environment Variables
