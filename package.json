@@ -1,6 +1,6 @@
 {
   "name": "discord.js-handler",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "A complete discord.js typescript handler.",
   "main": "src/index.ts",
   "scripts": {
