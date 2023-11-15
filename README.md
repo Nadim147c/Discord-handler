@@ -1,3 +1,7 @@
+# ⚠ This repository is no longer maintained
+
+I've spent a lot of time on this repository, especially for the sub-command to work based on the directory. But, I no longer build discord bots, and JavaScript packages change very quickly. Discord.js updates automatically broke the different parts of this code base. Which is extremely annoying when I'm not regularly maintaining it. So, I'll be archiving this repository.
+
 # Discord Handler
 
 A complete discord.js typescript handler. Automatically register commands and subcommands.
