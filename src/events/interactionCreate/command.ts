@@ -54,9 +54,8 @@ export default new Event("interactionCreate", async (interaction) => {
     timestamps.set(user.id, now)
     setTimeout(() => timestamps.delete(user.id), coolDownAmount)
 
-    if (module.deffer || module.ephemeral)
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        module.ephemeral ? await command.deferReply({ ephemeral: true }) : await command.deferReply()
+    if (module.ephemeral) await command.deferReply({ ephemeral: true })
+    else if (module.deffer) await command.deferReply()
 
     try {
         module.run(command)

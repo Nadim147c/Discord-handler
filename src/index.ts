@@ -1,9 +1,20 @@
+/* eslint-disable @typescript-eslint/no-namespace */
 import { config } from "dotenv"
+import { z } from "zod"
 import ExtendedClient from "./structures/Client"
 
 config()
 
-// eslint-disable-next-line import/prefer-default-export
-export const client = new ExtendedClient()
+const envSchema = z.object({ DISCORD: z.string() })
+
+envSchema.parse(process.env)
+
+declare global {
+    namespace NodeJS {
+        interface ProcessEnv extends z.infer<typeof envSchema> {}
+    }
+}
+
+const client = new ExtendedClient()
 
 client.start()

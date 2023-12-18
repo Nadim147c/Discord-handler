@@ -4,29 +4,30 @@ import { logError } from "../../functions/log/logger"
 import Event from "../../structures/Event"
 import { ExtendedButton } from "../../typings/Buttons"
 
-export default new Event("interactionCreate", async (interaction: ExtendedButton) => {
+export default new Event("interactionCreate", async (interaction) => {
     if (!interaction.isButton()) return
 
-    Object.assign(interaction, interactionRepliers)
+    const buttonInteraction = interaction as ExtendedButton
 
-    const [key, customValue] = interaction.customId.split(":")
+    Object.assign(buttonInteraction, interactionRepliers)
 
-    // eslint-disable-next-line no-param-reassign
-    interaction.customValue = customValue
+    const [key, customValue] = buttonInteraction.customId.split(":")
 
-    const module = interaction.client.buttons.get(key)
+    buttonInteraction.customValue = customValue
+
+    const module = buttonInteraction.client.buttons.get(key)
 
     if (!module) return
 
-    const { member } = interaction
+    const { member } = buttonInteraction
 
     if (module.permissions?.length && !member.permissions.has(module.permissions)) {
         const permissions = module.permissions.map((x) => inlineCode(x)).join(", ")
-        return interaction.warn(`You need following permissions to use this button.\n${permissions}`)
+        return buttonInteraction.warn(`You need following permissions to use this button.\n${permissions}`)
     }
 
     try {
-        module.run(interaction)
+        module.run(buttonInteraction)
     } catch (error) {
         logError(error)
     }

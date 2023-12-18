@@ -1,9 +1,9 @@
 // Dev Guilds
-export const devGuilds = ["970403357904736276"]
+export const devGuilds = ["957620528028483584"]
 
 // All developers
-export const developers = ["759472423807746059"]
-export const testers = ["759472423807746059"]
+export const developers = ["985585922919792660"]
+export const testers = ["985585922919792660"]
 
 // Times in ms
 export const commandTimeout = 1000 * 5
