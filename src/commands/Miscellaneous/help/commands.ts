@@ -35,6 +35,6 @@ export default new Command({
                 .setFields(fields),
         ]
 
-        command.reply({ embeds, ephemeral: true })
+        command.reply({ embeds })
     },
 })

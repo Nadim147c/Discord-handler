@@ -1,6 +1,6 @@
-# ⚠ This repository is no longer maintained
+## ⚠ This handler no longer supports windows
 
-I've spent a lot of time on this repository, especially for the sub-command to work based on the directory. But, I no longer build discord bots, and JavaScript packages change very quickly. Discord.js updates automatically broke the different parts of this code base. Which is extremely annoying when I'm not regularly maintaining it. So, I'll be archiving this repository.
+I recently archived this repository because it was really hard to make it work on windows. So, I dropped it's support for windows. In future, I might add support for windows. But current you have to use WSL 2 to work to work on it on windows.
 
 # Discord Handler
 

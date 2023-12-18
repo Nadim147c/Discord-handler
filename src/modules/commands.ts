@@ -21,15 +21,17 @@ type CommandData = Collection<string, ChatInputApplicationCommandData>
 
 const path = `${__dirname}/../commands/`
 
-function extractInfoFromPath(PATH: string): CommandPathInfo {
-    const pieces = PATH.slice(path.length).split("/")
+function extractInfoFromPath(inputPath: string): CommandPathInfo {
+    const dirnameLength = __dirname.split("/").length
+
+    const pieces = inputPath.split("/").slice(dirnameLength)
 
     if (pieces.length < 2)
         // eslint-disable-next-line max-len, @typescript-eslint/no-throw-literal
         throw "Invalid files structure. See the docs: 'https://github.com/Nadim147c/Discord-handler#subcommands-and-files-structure'"
 
     const info: CommandPathInfo = {
-        path: PATH,
+        path: inputPath,
         category: pieces.shift(),
         file: pieces.pop(),
         subName: pieces.pop(),
