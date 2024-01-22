@@ -2,7 +2,7 @@ import { ButtonInteraction, GuildMember, PermissionsString } from "discord.js"
 import ExtendedClient from "../structures/Client"
 import { InteractionReplier } from "./Commands"
 
-export interface ExtendedButton extends ButtonInteraction {
+export interface ExtendedButton extends Omit<ButtonInteraction, "member" | "client"> {
     member: GuildMember
     client: ExtendedClient
     customValue?: string
