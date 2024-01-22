@@ -18,31 +18,43 @@ interface SelectMenuExtender {
     error: InteractionReplier
 }
 
-export interface ExtendedStringSelectMenu extends StringSelectMenuInteraction, SelectMenuExtender {
+export interface ExtendedStringSelectMenu
+    extends Omit<StringSelectMenuInteraction, "member" | "client">,
+        SelectMenuExtender {
     member: GuildMember
     client: ExtendedClient
 }
-export interface ExtendedUserSelectMenu extends UserSelectMenuInteraction, SelectMenuExtender {
+export interface ExtendedUserSelectMenu
+    extends Omit<UserSelectMenuInteraction, "member" | "client">,
+        SelectMenuExtender {
     member: GuildMember
     client: ExtendedClient
 }
-export interface ExtendedRoleSelectMenu extends RoleSelectMenuInteraction, SelectMenuExtender {
+export interface ExtendedRoleSelectMenu
+    extends Omit<RoleSelectMenuInteraction, "member" | "client">,
+        SelectMenuExtender {
     member: GuildMember
     client: ExtendedClient
 }
-export interface ExtendedChannelSelectMenu extends ChannelSelectMenuInteraction, SelectMenuExtender {
+export interface ExtendedChannelSelectMenu
+    extends Omit<ChannelSelectMenuInteraction, "member" | "client">,
+        SelectMenuExtender {
     member: GuildMember
     client: ExtendedClient
 }
-export interface ExtendedMentionableSelectMenu extends MentionableSelectMenuInteraction, SelectMenuExtender {
+export interface ExtendedMentionableSelectMenu
+    extends Omit<MentionableSelectMenuInteraction, "member" | "client">,
+        SelectMenuExtender {
     member: GuildMember
     client: ExtendedClient
 }
-export type ExtendedAnySelectMenu = AnySelectMenuInteraction &
-    SelectMenuExtender & {
-        member: GuildMember
-        client: ExtendedClient
-    }
+
+export interface ExtendedAnySelectMenu
+    extends Omit<AnySelectMenuInteraction, "member" | "client">,
+        SelectMenuExtender {
+    member: GuildMember
+    client: ExtendedClient
+}
 
 export type SelectMenuFunction<Interaction> = (interaction: Interaction) => unknown
 

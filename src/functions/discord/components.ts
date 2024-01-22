@@ -11,20 +11,15 @@ import {
     UserSelectMenuBuilder,
 } from "discord.js"
 
-export const createRow = (
-    ...components: (
-        | ButtonBuilder
-        | UserSelectMenuBuilder
-        | RoleSelectMenuBuilder
-        | ChannelSelectMenuBuilder
-        | StringSelectMenuBuilder
-    )[]
-) =>
-    new ActionRowBuilder().setComponents(components) as
-        | ActionRowBuilder<ButtonBuilder>
-        | ActionRowBuilder<
-              UserSelectMenuBuilder | RoleSelectMenuBuilder | ChannelSelectMenuBuilder | StringSelectMenuBuilder
-          >
+type ComponentType =
+    | ButtonBuilder
+    | UserSelectMenuBuilder
+    | RoleSelectMenuBuilder
+    | ChannelSelectMenuBuilder
+    | StringSelectMenuBuilder
+
+export const createRow = (...components: ComponentType[]) =>
+    new ActionRowBuilder().setComponents(components) as ActionRowBuilder<ComponentType>
 
 const { Link, Secondary } = ButtonStyle
 
@@ -53,7 +48,11 @@ export const createModalField = (
     min?: number,
     max?: number,
 ) => {
-    const textInput = new TextInputBuilder().setLabel(label).setCustomId(customId).setStyle(style).setRequired(required)
+    const textInput = new TextInputBuilder()
+        .setLabel(label)
+        .setCustomId(customId)
+        .setStyle(style)
+        .setRequired(required)
 
     if (placeholder) textInput.setPlaceholder(placeholder)
     if (min) textInput.setMinLength(min)
@@ -62,4 +61,5 @@ export const createModalField = (
     return new ActionRowBuilder<TextInputBuilder>().setComponents(textInput)
 }
 
-export const createModel = (title: string, customId: string) => new ModalBuilder().setTitle(title).setCustomId(customId)
+export const createModel = (title: string, customId: string) =>
+    new ModalBuilder().setTitle(title).setCustomId(customId)

@@ -10,7 +10,7 @@ import {
 import ExtendedClient from "../structures/Client"
 import { InteractionReplier } from "./Commands"
 
-export interface ExtendedMessageContextMenu extends MessageContextMenuCommandInteraction {
+export interface ExtendedMessageContextMenu extends Omit<MessageContextMenuCommandInteraction, "member" | "client"> {
     member: GuildMember
     client: ExtendedClient
     response: InteractionReplier
@@ -27,7 +27,7 @@ export type MessageContextMenuType = {
     run: MessageContextMenuFunction
 } & BaseApplicationCommandData
 
-export interface ExtendedUserContextMenu extends UserContextMenuCommandInteraction {
+export interface ExtendedUserContextMenu extends Omit<UserContextMenuCommandInteraction, "member" | "client"> {
     member: GuildMember
     client: ExtendedClient
     response: InteractionReplier

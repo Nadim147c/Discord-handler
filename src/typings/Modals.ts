@@ -2,7 +2,7 @@ import { GuildMember, ModalSubmitInteraction, PermissionsString } from "discord.
 import ExtendedClient from "../structures/Client"
 import { InteractionReplier } from "./Commands"
 
-export interface ExtendedModal extends ModalSubmitInteraction {
+export interface ExtendedModal extends Omit<ModalSubmitInteraction, "member" | "client"> {
     member: GuildMember
     client: ExtendedClient
     customValue?: string
