@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
     ApplicationCommandOptionType as OptionType,
     ApplicationCommandSubGroupData,
@@ -11,44 +12,46 @@ import type { CommandType } from "../typings/Commands"
 
 type CommandPathInfo = {
     path: string
-    file: string
     category: string
-    subName: string
-    rootName: string
+    baseName: string
+    midName: string
+    topName: string
 }
 
 type CommandData = Collection<string, ChatInputApplicationCommandData>
 
 const path = `${__dirname}/../commands/`
 
+type Mutable<T> = {
+    -readonly [P in keyof T]: T[P]
+}
+
 function extractInfoFromPath(inputPath: string): CommandPathInfo {
     const dirnameLength = __dirname.split("/").length
 
     const pieces = inputPath.split("/").slice(dirnameLength)
 
-    if (pieces.length < 2)
-        // eslint-disable-next-line max-len, @typescript-eslint/no-throw-literal
-        throw "Invalid files structure. See the docs: 'https://github.com/Nadim147c/Discord-handler#subcommands-and-files-structure'"
+    if (pieces.length < 2) throw "Invalid files structure."
 
     const info: CommandPathInfo = {
         path: inputPath,
-        category: pieces.shift(),
-        file: pieces.pop(),
-        subName: pieces.pop(),
-        rootName: pieces.pop(),
+        category: pieces.shift()!,
+        baseName: pieces.pop()!,
+        midName: pieces.pop()!,
+        topName: pieces.pop()!,
     }
 
     return info
 }
 
-const defaultBaseCommandData = (name: string): ChatInputApplicationCommandData => ({
+const getBaseCmdData = (name: string): ChatInputApplicationCommandData => ({
     name,
     type: ApplicationCommandType.ChatInput,
     description: `Commands related to ${name}.`,
     options: [],
 })
 
-const defaultSubCommandData = (name: string): ApplicationCommandSubGroupData => ({
+const getSubCmdGroupData = (name: string): ApplicationCommandSubGroupData => ({
     name,
     type: OptionType.SubcommandGroup,
     description: `Commands related to ${name}.`,
@@ -56,65 +59,75 @@ const defaultSubCommandData = (name: string): ApplicationCommandSubGroupData => 
 })
 
 function setCommandData(info: CommandPathInfo, module: CommandType, collection: CommandData) {
-    let commandData = collection.get(info.rootName)
+    let topLevelCmdData = collection.get(info.topName ?? info.midName ?? info.baseName)
 
-    if (info.rootName) {
-        if (!commandData) commandData = defaultBaseCommandData(info.rootName)
+    if (info.topName) {
+        if (!topLevelCmdData) topLevelCmdData = getBaseCmdData(info.topName)
+        const options = (topLevelCmdData.options as Mutable<typeof topLevelCmdData.options>) ?? []
 
-        let groupData = commandData.options.find((CMD) => CMD.name === info.subName) as ApplicationCommandSubGroupData
+        let midCmdData = options.find(
+            (cmd) => cmd.name === info.midName,
+        ) as ApplicationCommandSubGroupData
 
-        if (!groupData) {
-            groupData = defaultSubCommandData(info.subName)
-            commandData.options.push(groupData)
+        if (!midCmdData) {
+            midCmdData = getSubCmdGroupData(info.midName)
+            options.push(midCmdData)
         }
 
-        const subcommand = groupData.options.find((x) => x.name === module.data.name)
+        const subcommand = midCmdData.options.find((option) => option.name === module.data.name)
 
-        if (!subcommand) groupData.options.push(Object.assign(module.data, { type: OptionType.Subcommand }))
+        if (!subcommand) options.push(Object.assign(module.data, { type: OptionType.Subcommand }))
 
-        collection.set(info.rootName, commandData)
+        topLevelCmdData.options = options
 
-        return
+        collection.set(info.topName, topLevelCmdData)
+    } else if (info.midName) {
+        if (!topLevelCmdData) topLevelCmdData = getBaseCmdData(info.midName)
+
+        const options = (topLevelCmdData.options as Mutable<typeof topLevelCmdData.options>) ?? []
+
+        const baseCmd = options.find((cmd) => cmd.name === module.data.name)
+
+        if (!baseCmd) options.push(Object.assign(module.data, { type: OptionType.Subcommand }))
+
+        topLevelCmdData.options = options
+
+        collection.set(info.midName, topLevelCmdData)
+    } else {
+        if (topLevelCmdData) return
+
+        collection.set(module.data.name, module.data)
     }
-
-    if (info.subName) {
-        if (!commandData) commandData = defaultBaseCommandData(info.subName)
-
-        const subcommand = commandData.options.find((x) => x.name === module.data.name)
-
-        if (!subcommand) commandData.options.push(Object.assign(module.data, { type: OptionType.Subcommand }))
-
-        collection.set(info.subName, commandData)
-
-        return
-    }
-
-    if (commandData) return
-
-    collection.set(module.data.name, module.data)
 }
 
 export default async (client: ExtendedClient) => {
-    async function registerCommands(_, files: string[]) {
-        const commandDataCollection: CommandData = new Collection()
+    const commandDataCollection: CommandData = new Collection()
+
+    async function registerCommands(_: unknown, files: string[]) {
         const pathInfos = files.map((file) => extractInfoFromPath(file))
 
-        const modules: CommandType[] = await Promise.all(pathInfos.map((info) => client.importFile(info.path)))
+        const modules: CommandType[] = await Promise.all(
+            pathInfos.map((info) => client.importFile(info.path)),
+        )
 
         for (let i = 0; i < modules.length; i++) {
-            const pathInfo = pathInfos[i]
-            const module = modules[i]
+            const pathInfo = pathInfos[i]!
+            const module = modules[i]!
 
             module.category = pathInfo.category
 
-            const identifier = [pathInfo.rootName, pathInfo.subName, module.data.name].filter((x) => x).join("-")
+            const identifier = [pathInfo.topName, pathInfo.midName, module.data.name]
+                .filter(Boolean)
+                .join("-")
 
             client.commands.set(identifier, module)
 
             setCommandData(pathInfo, module, commandDataCollection)
         }
 
-        commandDataCollection.forEach((x) => client.commandData.add(x))
+        commandDataCollection.forEach((x) => {
+            client.commandData.add(x)
+        })
     }
 
     glob(`${path}**/**/**/*{.js,.ts}`, { windowsPathsNoEscape: true }, registerCommands)

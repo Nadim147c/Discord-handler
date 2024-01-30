@@ -7,27 +7,27 @@ import { ExtendedButton } from "../../typings/Buttons"
 export default new Event("interactionCreate", async (interaction) => {
     if (!interaction.isButton()) return
 
-    const buttonInteraction = interaction as ExtendedButton
+    const button = interaction as unknown as ExtendedButton
 
-    Object.assign(buttonInteraction, interactionRepliers)
+    Object.assign(button, interactionRepliers)
 
-    const [key, customValue] = buttonInteraction.customId.split(":")
+    const [key, customValue] = button.customId.split(":")
 
-    buttonInteraction.customValue = customValue
+    button.customValue = customValue
 
-    const module = buttonInteraction.client.buttons.get(key)
+    const module = button.client.buttons.get(key)
 
     if (!module) return
 
-    const { member } = buttonInteraction
+    const { member } = button
 
     if (module.permissions?.length && !member.permissions.has(module.permissions)) {
         const permissions = module.permissions.map((x) => inlineCode(x)).join(", ")
-        return buttonInteraction.warn(`You need following permissions to use this button.\n${permissions}`)
+        return button.warn(`You need following permissions to use this button.\n${permissions}`)
     }
 
     try {
-        module.run(buttonInteraction)
+        module.run(button)
     } catch (error) {
         logError(error)
     }

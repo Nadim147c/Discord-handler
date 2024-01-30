@@ -5,21 +5,14 @@ import {
     CommandInteraction,
     CommandInteractionOptionResolver,
     GuildMember,
-    PermissionsString,
-    User,
-    UserResolvable,
+    PermissionsString
 } from "discord.js"
 import ExtendedClient from "../structures/Client"
 
 export type InteractionReplier = (content: string, ephemeral?: boolean, seconds?: number) => unknown
 
-export interface OptionsType extends CommandInteractionOptionResolver {
-    getUser: (user: UserResolvable, required?: boolean) => User
-    getString: (user: UserResolvable, required?: boolean) => string
-}
-
 export interface ExtendedCommand extends Omit<CommandInteraction, "options" | "member" | "client"> {
-    options: OptionsType
+    options: CommandInteractionOptionResolver
     member: GuildMember
     client: ExtendedClient
     response: InteractionReplier

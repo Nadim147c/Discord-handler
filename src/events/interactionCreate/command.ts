@@ -8,7 +8,7 @@ import { ExtendedCommand } from "../../typings/Commands"
 export default new Event("interactionCreate", async (interaction) => {
     if (!interaction.isChatInputCommand()) return
 
-    const command = interaction as ExtendedCommand
+    const command = interaction as unknown as ExtendedCommand
 
     Object.assign(command, interactionRepliers)
 

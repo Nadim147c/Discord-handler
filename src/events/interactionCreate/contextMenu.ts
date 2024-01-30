@@ -11,14 +11,16 @@ import {
 export default new Event("interactionCreate", async (interaction) => {
     if (!interaction.isContextMenuCommand()) return
 
-    const context = interaction as ExtendedMessageContextMenu | ExtendedUserContextMenu
+    const context = interaction as unknown as ExtendedMessageContextMenu | ExtendedUserContextMenu
 
     const { member, client } = context
 
     function checkPermission(module: MessageContextMenuType | UserContextMenuType): boolean {
         if (module.permissions?.length && !member.permissions.has(module.permissions)) {
             const permissions = module.permissions.map((x) => inlineCode(x)).join(", ")
-            context.warn(`You need following permissions to use this dropdown menu.\n${permissions}`)
+            context.warn(
+                `You need following permissions to use this dropdown menu.\n${permissions}`,
+            )
             return true
         }
         return false
