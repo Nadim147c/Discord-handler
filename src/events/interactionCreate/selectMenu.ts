@@ -21,59 +21,52 @@ type ModuleType =
     | RoleSelectMenuType
     | ChannelSelectMenuType
     | MentionableSelectMenuType
-type InteractionType =
+type Interaction =
     | ExtendedStringSelectMenu
     | ExtendedUserSelectMenu
     | ExtendedRoleSelectMenu
     | ExtendedChannelSelectMenu
     | ExtendedMentionableSelectMenu
 
-export default new Event("interactionCreate", async (interaction: InteractionType) => {
+export default new Event("interactionCreate", async (interaction) => {
     if (!interaction.isAnySelectMenu()) return
 
-    Object.assign(interaction, interactionRepliers)
+    const selectMenu = interaction as unknown as Interaction
 
-    const [key, customValue] = interaction.customId.split(":")
+    Object.assign(selectMenu, interactionRepliers)
+
+    const [key, customValue] = selectMenu.customId.split(":")
 
     // eslint-disable-next-line no-param-reassign
-    interaction.customValue = customValue
+    selectMenu.customValue = customValue
 
-    let module: ModuleType
+    let module: ModuleType | undefined
 
-    switch (true) {
-        case interaction.isStringSelectMenu():
-            module = interaction.client.selectMenus.string.get(key.replace(/[0-4]$/, ""))
-            break
-        case interaction.isUserSelectMenu():
-            module = interaction.client.selectMenus.user.get(key.replace(/[0-4]$/, ""))
-            break
-        case interaction.isRoleSelectMenu():
-            module = interaction.client.selectMenus.role.get(key.replace(/[0-4]$/, ""))
-            break
-        case interaction.isChannelSelectMenu():
-            module = interaction.client.selectMenus.channel.get(key.replace(/[0-4]$/, ""))
-            break
-        case interaction.isMentionableSelectMenu():
-            module = interaction.client.selectMenus.mentionable.get(key.replace(/[0-4]$/, ""))
-            break
-
-        default:
-            break
+    if (selectMenu.isStringSelectMenu()) {
+        module = selectMenu.client.selectMenus.string.get(key.replace(/[0-4]$/, ""))
+    } else if (selectMenu.isUserSelectMenu()) {
+        module = selectMenu.client.selectMenus.user.get(key.replace(/[0-4]$/, ""))
+    } else if (selectMenu.isRoleSelectMenu()) {
+        module = selectMenu.client.selectMenus.role.get(key.replace(/[0-4]$/, ""))
+    } else if (selectMenu.isChannelSelectMenu()) {
+        module = selectMenu.client.selectMenus.channel.get(key.replace(/[0-4]$/, ""))
+    } else if (selectMenu.isMentionableSelectMenu()) {
+        module = selectMenu.client.selectMenus.mentionable.get(key.replace(/[0-4]$/, ""))
     }
 
     if (!module) return
 
-    const { member } = interaction
+    const { member } = selectMenu
 
     if (module.permissions?.length && !member.permissions.has(module.permissions)) {
         const permissions = module.permissions.map((x) => inlineCode(x)).join(", ")
-        interaction.warn(`You need following permissions to use this dropdown menu.\n${permissions}`)
+        selectMenu.warn(`You need following permissions to use this dropdown menu.\n${permissions}`)
         return
     }
 
     try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        module.run(interaction as any)
+        module.run(selectMenu as any)
     } catch (error) {
         logError(error)
     }
