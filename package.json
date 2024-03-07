@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
     "name": "discord.js-handler",
     "version": "0.3.0",
     "description": "A complete discord.js typescript handler.",
@@ -15,59 +14,23 @@
     "author": "3n123",
     "license": "MIT",
     "devDependencies": {
-        "@types/glob": "^8.0.0",
-        "@types/node": "^18.7.16",
-        "@typescript-eslint/eslint-plugin": "^5.13.0",
-        "@typescript-eslint/parser": "^5.0.0",
+        "@types/glob": "^8.1.0",
+        "@types/node": "^18.19.22",
+        "@typescript-eslint/eslint-plugin": "^5.62.0",
+        "@typescript-eslint/parser": "^5.62.0",
         "concurrently": "^8.2.2",
-        "eslint": "^8.23.0",
-        "eslint-config-prettier": "^8.5.0",
-        "eslint-plugin-import": "^2.26.0",
+        "eslint": "^8.57.0",
+        "eslint-config-prettier": "^8.10.0",
+        "eslint-plugin-import": "^2.29.1",
         "nodemon": "^2.0.22",
-        "typescript": "^5.3.3"
+        "ts-node": "^10.9.2",
+        "typescript": "^5.4.2"
     },
     "dependencies": {
         "chalk": "^4.1.2",
         "discord.js": "^14.14.1",
-        "dotenv": "^16.0.3",
-        "glob": "^8.0.3",
-        "node": "v16.14.2",
+        "dotenv": "^16.4.5",
+        "glob": "^8.1.0",
         "zod": "^3.22.4"
     }
-=======
-  "name": "discord.js-handler",
-  "version": "0.3.1",
-  "description": "A complete discord.js typescript handler.",
-  "main": "src/index.ts",
-  "scripts": {
-    "start": "node dist/.",
-    "nodemon": "nodemon dist/.",
-    "lint": "eslint . --ext .js,.ts",
-    "dev": "concurrently \"tsc -w\" \"nodemon dist/.\"",
-    "build": "tsc",
-    "watch": "tsc -w"
-  },
-  "author": "3n123",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/glob": "^8.0.0",
-    "@types/node": "^18.7.16",
-    "@typescript-eslint/eslint-plugin": "^5.13.0",
-    "@typescript-eslint/parser": "^5.0.0",
-    "concurrently": "^8.2.2",
-    "eslint": "^8.23.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-import": "^2.26.0",
-    "nodemon": "^2.0.22",
-    "typescript": "^4.9.3"
-  },
-  "dependencies": {
-    "chalk": "^4.1.2",
-    "discord.js": "^14.14.1",
-    "dotenv": "^16.0.3",
-    "glob": "^8.0.3",
-    "node": "v16.14.2",
-    "zod": "^3.22.4"
-  }
->>>>>>> d2331a071130c6fa14bc4deef74835f655582655
 }
