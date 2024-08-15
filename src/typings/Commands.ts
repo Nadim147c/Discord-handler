@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
     ApplicationCommandOptionChoiceData,
     AutocompleteInteraction,
@@ -5,19 +6,14 @@ import {
     CommandInteraction,
     CommandInteractionOptionResolver,
     GuildMember,
-    PermissionsString
+    PermissionsString,
 } from "discord.js"
-import ExtendedClient from "../structures/Client"
-
-export type InteractionReplier = (content: string, ephemeral?: boolean, seconds?: number) => unknown
+import ExtendedClient from "../structures/Client.js"
 
 export interface ExtendedCommand extends Omit<CommandInteraction, "options" | "member" | "client"> {
     options: CommandInteractionOptionResolver
     member: GuildMember
     client: ExtendedClient
-    response: InteractionReplier
-    warn: InteractionReplier
-    error: InteractionReplier
 }
 
 export interface ExtendedAutoComplete extends Omit<AutocompleteInteraction, "member" | "client"> {

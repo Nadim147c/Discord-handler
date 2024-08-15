@@ -1,13 +1,14 @@
 import {
     ActionRowBuilder,
     ChannelSelectMenuBuilder,
+    ComponentEmojiResolvable,
     MentionableSelectMenuBuilder,
     RoleSelectMenuBuilder,
     StringSelectMenuBuilder,
     StringSelectMenuOptionBuilder,
     UserSelectMenuBuilder,
 } from "discord.js"
-import Command from "../../../../structures/Command"
+import Command from "../../../../structures/Command.js"
 
 export default new Command({
     data: {
@@ -16,42 +17,55 @@ export default new Command({
     },
     dev: true,
     async run(command) {
-        const ROW = () =>
-            new ActionRowBuilder<
-                | UserSelectMenuBuilder
-                | RoleSelectMenuBuilder
-                | ChannelSelectMenuBuilder
-                | StringSelectMenuBuilder
-                | MentionableSelectMenuBuilder
-            >()
-        const OPTION = (label: string, value: string, emoji: unknown) =>
-            new StringSelectMenuOptionBuilder().setLabel(label).setValue(value).setEmoji(emoji)
+        type RowComponents =
+            | UserSelectMenuBuilder
+            | RoleSelectMenuBuilder
+            | ChannelSelectMenuBuilder
+            | StringSelectMenuBuilder
+            | MentionableSelectMenuBuilder
+
+        const createRow = () => new ActionRowBuilder<RowComponents>()
+        const createOption = (label: string, value: string, emoji: ComponentEmojiResolvable) => {
+            return new StringSelectMenuOptionBuilder()
+                .setLabel(label)
+                .setValue(value)
+                .setEmoji(emoji)
+        }
 
         const components = [
-            ROW().addComponents(
-                new UserSelectMenuBuilder().setCustomId("user").setPlaceholder("User select menu").setMaxValues(1),
+            createRow().addComponents(
+                new UserSelectMenuBuilder()
+                    .setCustomId("user")
+                    .setPlaceholder("User select menu")
+                    .setMaxValues(1),
             ),
-            ROW().addComponents(
-                new RoleSelectMenuBuilder().setCustomId("role").setPlaceholder("Role select menu").setMaxValues(1),
+            createRow().addComponents(
+                new RoleSelectMenuBuilder()
+                    .setCustomId("role")
+                    .setPlaceholder("Role select menu")
+                    .setMaxValues(1),
             ),
-            ROW().addComponents(
+            createRow().addComponents(
                 new ChannelSelectMenuBuilder()
                     .setCustomId("channel")
                     .setPlaceholder("Channel select menu")
                     .setMaxValues(1),
             ),
-            ROW().addComponents(
+            createRow().addComponents(
                 new MentionableSelectMenuBuilder()
                     .setCustomId("mentionable")
                     .setPlaceholder("Mentionable select menu")
                     .setMaxValues(1),
             ),
-            ROW().addComponents(
+            createRow().addComponents(
                 new StringSelectMenuBuilder()
                     .setCustomId("string")
                     .setPlaceholder("String select menu")
                     .setMaxValues(1)
-                    .addOptions(OPTION("First option", "option 1", "😀"), OPTION("Second option", "option 2", "😀")),
+                    .addOptions(
+                        createOption("First option", "option 1", "😀"),
+                        createOption("Second option", "option 2", "😀"),
+                    ),
             ),
         ]
 

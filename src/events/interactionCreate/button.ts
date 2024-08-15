@@ -1,21 +1,19 @@
 import { inlineCode } from "discord.js"
-import { interactionRepliers } from "../../functions/discord/repliers"
-import { logError } from "../../functions/log/logger"
-import Event from "../../structures/Event"
-import { ExtendedButton } from "../../typings/Buttons"
+import Event from "../../structures/Event.js"
+import { ButtonType, ExtendedButton } from "../../typings/Buttons.js"
+import { logError } from "../../functions/log/logger.js"
 
 export default new Event("interactionCreate", async (interaction) => {
     if (!interaction.isButton()) return
 
     const button = interaction as unknown as ExtendedButton
 
-    Object.assign(button, interactionRepliers)
-
-    const [key, customValue] = button.customId.split(":")
+    const key = button.customId.split(":").at(0)!
+    const customValue = button.customId.split(":").at(1)
 
     button.customValue = customValue
 
-    const module = button.client.buttons.get(key)
+    const module = button.client.buttons.get(key) as ButtonType
 
     if (!module) return
 
@@ -23,7 +21,7 @@ export default new Event("interactionCreate", async (interaction) => {
 
     if (module.permissions?.length && !member.permissions.has(module.permissions)) {
         const permissions = module.permissions.map((x) => inlineCode(x)).join(", ")
-        return button.warn(`You need following permissions to use this button.\n${permissions}`)
+        return button.reply(`You need following permissions to use this button.\n${permissions}`)
     }
 
     try {

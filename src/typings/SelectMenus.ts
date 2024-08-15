@@ -8,14 +8,10 @@ import type {
     StringSelectMenuInteraction,
     UserSelectMenuInteraction,
 } from "discord.js"
-import type ExtendedClient from "../structures/Client"
-import type { InteractionReplier } from "./Commands"
+import type ExtendedClient from "../structures/Client.js"
 
 interface SelectMenuExtender {
     customValue?: string
-    response: InteractionReplier
-    warn: InteractionReplier
-    error: InteractionReplier
 }
 
 export interface ExtendedStringSelectMenu
@@ -56,6 +52,7 @@ export interface ExtendedAnySelectMenu
     client: ExtendedClient
 }
 
+// eslint-disable-next-line no-unused-vars
 export type SelectMenuFunction<Interaction> = (interaction: Interaction) => unknown
 
 type SelectMenuType<

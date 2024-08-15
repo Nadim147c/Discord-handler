@@ -1,0 +1,61 @@
+name: Continuous Integration
+
+on:
+    push:
+        branches:
+            - "**"
+
+jobs:
+    build:
+        name: "Lint and Build"
+        runs-on: ubuntu-latest
+        steps:
+            - name: Clone the git repository
+              uses: actions/checkout@main
+
+            - name: Setup pnpm
+              uses: pnpm/action-setup@v4
+              with:
+                  version: latest
+
+            - name: Setup node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 21.x
+                  cache: "pnpm"
+
+            - name: Install dependencies
+              run: pnpm install
+
+            - name: Linting
+              run: pnpm run lint
+
+            - name: Building
+              run: pnpm run build
+
+    version-bump-changelog-release:
+        name: Bump Version, Generate Changelog, and Create Release
+        needs: build
+        if: github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+        steps:
+            - name: Clone the git repository
+              uses: actions/checkout@main
+
+            - name: Conventional changelog action
+              id: changelog
+              uses: TriPSs/conventional-changelog-action@v5
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  preset: "conventionalcommits"
+                  version-file: "./package.json"
+
+            - name: Create release
+              uses: ncipollo/release-action@v1
+              if: ${{ steps.changelog.outputs.skipped == 'false' }}
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tag: ${{ steps.changelog.outputs.tag }}
+                  name: ${{ steps.changelog.outputs.tag }}
+                  body: ${{ steps.changelog.outputs.clean_changelog }}

@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType } from "discord.js"
-import titleCase from "../../../../functions/string/titleCase"
-import Command from "../../../../structures/Command"
+import titleCase from "../../../../functions/string/titleCase.js"
+import Command from "../../../../structures/Command.js"
 
 export default new Command({
     data: {
@@ -24,7 +24,7 @@ export default new Command({
         const wordList = wordStr.split(",")
         const inputs = focused.split(/ +/g)
         inputs.pop()
-        const last = focused.split(/ +/g)[inputs.length].toLowerCase()
+        const last = focused?.split(/ +/g)?.at(inputs.length)?.toLowerCase() ?? "discord"
         const words = wordList.filter((word) => word.startsWith(last))
         return words.map((word) => ({
             name: titleCase(`${inputs.join(" ")} ${word}`),
@@ -32,6 +32,6 @@ export default new Command({
         }))
     },
     async run(command) {
-        command.response(`You typed:\n\`\`\`${command.options.getString("input")}\`\`\``)
+        await command.reply(`You typed:\n\`\`\`${command.options.getString("input")}\`\`\``)
     },
 })

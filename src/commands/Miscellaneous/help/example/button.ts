@@ -1,5 +1,5 @@
-import { createButton, createRow } from "../../../../functions/discord/components"
-import Command from "../../../../structures/Command"
+import { createButton, createRow } from "../../../../functions/discord/components.js"
+import Command from "../../../../structures/Command.js"
 
 export default new Command({
     data: {

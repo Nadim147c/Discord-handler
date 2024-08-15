@@ -1,9 +1,8 @@
-import { RoleSelectMenu } from "../../../structures/SelectMenu"
+import { RoleSelectMenu } from "../../../structures/SelectMenu.js"
 
 export default new RoleSelectMenu({
     id: "role",
     async run(select) {
-        const content = `This select-menu is handled from \`${__filename}\``
-        select.response(content)
+        select.reply(`This select-menu is handled from \`${__filename}\``)
     },
 })

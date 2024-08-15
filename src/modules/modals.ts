@@ -1,8 +1,9 @@
-import type ExtendedClient from "../structures/Client"
-import type { ModalType } from "../typings/Modals"
+import { srcDir } from "../dirname.cjs"
+import type ExtendedClient from "../structures/Client.js"
+import type { ModalType } from "../typings/Modals.js"
 
 export default async (client: ExtendedClient) => {
-    const path = `${__dirname}/../interaction/modals`
+    const path = `${srcDir}/interaction/modals`
 
     const files = await client.getFiles(path)
 

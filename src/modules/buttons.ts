@@ -1,8 +1,9 @@
-import type { ButtonType } from "../typings/Buttons"
-import type ExtendedClient from "../structures/Client"
+import { srcDir } from "../dirname.cjs"
+import ExtendedClient from "../structures/Client.js"
+import type { ButtonType } from "../typings/Buttons.js"
 
 export default async (client: ExtendedClient) => {
-    const path = `${__dirname}/../interaction/buttons`
+    const path = `${srcDir}/interaction/buttons`
 
     const files = await client.getFiles(path)
 

@@ -1,13 +1,16 @@
-FROM node:20
+FROM node:21
+
+RUN npm install -g pnpm
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json ./
+COPY pnpm-lock.yaml ./
 
-RUN npm i
+RUN pnpm install
 
 COPY . .
 
-RUN npm run build
+RUN pnpm run build
 
-CMD ["npm", "start"]
+CMD ["pnpm", "start"]

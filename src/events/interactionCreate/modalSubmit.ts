@@ -1,8 +1,7 @@
 import { inlineCode } from "discord.js"
-import { interactionRepliers } from "../../functions/discord/repliers"
-import { logError } from "../../functions/log/logger"
-import Event from "../../structures/Event"
-import { ExtendedModal } from "../../typings/Modals"
+import { logError } from "../../functions/log/logger.js"
+import Event from "../../structures/Event.js"
+import { ExtendedModal } from "../../typings/Modals.js"
 
 export default new Event("interactionCreate", async (interaction) => {
     if (!interaction.isModalSubmit()) return
@@ -11,12 +10,9 @@ export default new Event("interactionCreate", async (interaction) => {
 
     const [key, customValue] = modal.customId.split(":")
 
-    // eslint-disable-next-line no-param-reassign
     modal.customValue = customValue
 
-    Object.assign(modal, interactionRepliers)
-
-    const module = modal.client.modals.get(key)
+    const module = modal.client.modals.get(key!)
 
     if (!module) return
 
@@ -24,7 +20,7 @@ export default new Event("interactionCreate", async (interaction) => {
 
     if (module.permissions?.length && !member.permissions.has(module.permissions)) {
         const permissions = module.permissions.map((x) => inlineCode(x)).join(", ")
-        return modal.warn(`You need following permissions to submit this modal.\n${permissions}`)
+        return modal.reply(`You need following permissions to submit this modal.\n${permissions}`)
     }
 
     try {

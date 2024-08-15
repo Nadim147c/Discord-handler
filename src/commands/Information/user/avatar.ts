@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType, ButtonStyle } from "discord.js"
-import { createButton, createRow } from "../../../functions/discord/components"
-import Command from "../../../structures/Command"
+import { createButton, createRow } from "../../../functions/discord/components.js"
+import Command from "../../../structures/Command.js"
 
 // An example of a complete command
 export default new Command({
@@ -22,6 +22,6 @@ export default new Command({
         const content = user.displayAvatarURL({ size: 4096 })
         const components = [createRow(createButton("Download", content, ButtonStyle.Link))]
 
-        command.reply({ components, content, ephemeral: true })
+        await command.reply({ components, content, ephemeral: true })
     },
 })

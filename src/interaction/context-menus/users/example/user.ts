@@ -1,8 +1,8 @@
-import { UserContextMenu } from "../../../../structures/ContextMenu"
+import { UserContextMenu } from "../../../../structures/ContextMenu.js"
 
 export default new UserContextMenu({
     name: "example",
     async run(command) {
-        command.response(`This command is handled from \`${__filename}\``)
+        command.reply(`This command is handled from \`${__filename}\``)
     },
 })

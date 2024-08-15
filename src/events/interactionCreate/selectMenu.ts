@@ -1,19 +1,18 @@
 import { inlineCode } from "discord.js"
-import { interactionRepliers } from "../../functions/discord/repliers"
-import { logError } from "../../functions/log/logger"
-import Event from "../../structures/Event"
+import { logError } from "../../functions/log/logger.js"
+import Event from "../../structures/Event.js"
 import {
     ChannelSelectMenuType,
+    ExtendedChannelSelectMenu,
+    ExtendedMentionableSelectMenu,
+    ExtendedRoleSelectMenu,
     ExtendedStringSelectMenu,
     ExtendedUserSelectMenu,
     MentionableSelectMenuType,
     RoleSelectMenuType,
     StringSelectMenuType,
     UserSelectMenuType,
-    ExtendedChannelSelectMenu,
-    ExtendedMentionableSelectMenu,
-    ExtendedRoleSelectMenu,
-} from "../../typings/SelectMenus"
+} from "../../typings/SelectMenus.js"
 
 type ModuleType =
     | StringSelectMenuType
@@ -33,11 +32,9 @@ export default new Event("interactionCreate", async (interaction) => {
 
     const selectMenu = interaction as unknown as Interaction
 
-    Object.assign(selectMenu, interactionRepliers)
+    const key = selectMenu.customId.split(":").at(0)!
+    const customValue = selectMenu.customId.split(":").at(1)
 
-    const [key, customValue] = selectMenu.customId.split(":")
-
-    // eslint-disable-next-line no-param-reassign
     selectMenu.customValue = customValue
 
     let module: ModuleType | undefined
@@ -60,8 +57,9 @@ export default new Event("interactionCreate", async (interaction) => {
 
     if (module.permissions?.length && !member.permissions.has(module.permissions)) {
         const permissions = module.permissions.map((x) => inlineCode(x)).join(", ")
-        selectMenu.warn(`You need following permissions to use this dropdown menu.\n${permissions}`)
-        return
+        return selectMenu.reply(
+            `You need following permissions to use this dropdown menu.\n${permissions}`,
+        )
     }
 
     try {

@@ -1,16 +1,13 @@
 import { ButtonInteraction, GuildMember, PermissionsString } from "discord.js"
-import ExtendedClient from "../structures/Client"
-import { InteractionReplier } from "./Commands"
+import ExtendedClient from "../structures/Client.js"
 
 export interface ExtendedButton extends Omit<ButtonInteraction, "member" | "client"> {
     member: GuildMember
     client: ExtendedClient
     customValue?: string
-    response: InteractionReplier
-    warn: InteractionReplier
-    error: InteractionReplier
 }
 
+// eslint-disable-next-line no-unused-vars
 export type ButtonFunction = (interaction: ExtendedButton) => unknown
 
 export type ButtonType = {

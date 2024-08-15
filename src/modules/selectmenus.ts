@@ -1,11 +1,12 @@
-import type ExtendedClient from "../structures/Client"
+import { srcDir } from "../dirname.cjs"
+import type ExtendedClient from "../structures/Client.js"
 import type {
     ChannelSelectMenuType,
     MentionableSelectMenuType,
     RoleSelectMenuType,
     StringSelectMenuType,
     UserSelectMenuType,
-} from "../typings/SelectMenus"
+} from "../typings/SelectMenus.js"
 
 type SelectModule =
     | StringSelectMenuType
@@ -15,7 +16,7 @@ type SelectModule =
     | MentionableSelectMenuType
 
 export default async (client: ExtendedClient) => {
-    const path = `${__dirname}/../interaction/select-menus`
+    const path = `${srcDir}/interaction/select-menus`
 
     const files = await client.getFiles(path)
 

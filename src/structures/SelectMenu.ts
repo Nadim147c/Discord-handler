@@ -4,7 +4,7 @@ import {
     RoleSelectMenuType,
     StringSelectMenuType,
     UserSelectMenuType,
-} from "../typings/SelectMenus"
+} from "../typings/SelectMenus.js"
 
 export class StringSelectMenu {
     constructor(selectOptions: StringSelectMenuType) {

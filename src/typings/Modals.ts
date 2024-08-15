@@ -1,16 +1,13 @@
 import { GuildMember, ModalSubmitInteraction, PermissionsString } from "discord.js"
-import ExtendedClient from "../structures/Client"
-import { InteractionReplier } from "./Commands"
+import ExtendedClient from "../structures/Client.js"
 
 export interface ExtendedModal extends Omit<ModalSubmitInteraction, "member" | "client"> {
     member: GuildMember
     client: ExtendedClient
     customValue?: string
-    response: InteractionReplier
-    warn: InteractionReplier
-    error: InteractionReplier
 }
 
+// eslint-disable-next-line no-unused-vars
 export type ModalSubmitFunction = (interaction: ExtendedModal) => unknown
 
 export type ModalType = {

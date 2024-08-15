@@ -1,9 +1,9 @@
-import { devGuilds } from "../config"
-import { LogStart } from "../functions/log/logger"
-import ExtendedClient from "../structures/Client"
-import Event from "../structures/Event"
+import { LogStart } from "../functions/log/logger.js"
+import ExtendedClient from "../structures/Client.js"
+import Event from "../structures/Event.js"
 
-export default new Event("ready", async (client: ExtendedClient) => {
+export default new Event("ready", async function (baseClient) {
+    const client = baseClient as ExtendedClient // This one just for setting proper type
     LogStart(client)
-    devGuilds.forEach((str) => client.registerCommands(str))
+    globalThis.config.devGuilds.forEach((str) => client.registerCommands(str))
 })

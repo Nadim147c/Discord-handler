@@ -1,16 +1,13 @@
 import { Collection, inlineCode } from "discord.js"
-import { commandTimeout, developers, testers } from "../../config"
-import { interactionRepliers } from "../../functions/discord/repliers"
-import { logError } from "../../functions/log/logger"
-import Event from "../../structures/Event"
-import { ExtendedCommand } from "../../typings/Commands"
+import { CommandType, ExtendedCommand } from "../../typings/Commands.js"
+import Event from "../../structures/Event.js"
+import { getDynamicTime } from "../../functions/discord/getDynamicTime.js"
+import { logError } from "../../functions/log/logger.js"
 
 export default new Event("interactionCreate", async (interaction) => {
     if (!interaction.isChatInputCommand()) return
 
     const command = interaction as unknown as ExtendedCommand
-
-    Object.assign(command, interactionRepliers)
 
     const { options, client, member, user, commandName } = command
 
@@ -20,34 +17,39 @@ export default new Event("interactionCreate", async (interaction) => {
     const keys = [commandName, group, sub].filter((x) => !!x)
     const key = keys.join("-")
 
-    const module = client.commands.get(key)
+    const module = client.commands.get(key) as CommandType
 
-    if (!module) return command.error("oops! There is an error.")
+    if (!module) return await command.reply("oops! There is an error.")
 
-    if (module.dev && !developers.includes(user.id)) return command.error("Only developers can use this command.")
+    const { developers, testers, commandTimeout } = globalThis.config
+
+    if (module.dev && !developers.includes(user.id))
+        return await command.reply("Only developers can use this command.")
     if (module.beta && !developers.includes(user.id) && !testers.includes(user.id))
-        return command.error("Only developers and beta testers can use this command.")
+        return await command.reply("Only developers and beta testers can use this command.")
 
     if (module.permissions?.length && !member.permissions.has(module.permissions)) {
         const permissions = module.permissions.map((x) => inlineCode(x)).join(", ")
-        return command.warn(`You need following permissions to use this command.\n${permissions}`)
+        return await command.reply(
+            `You need following permissions to use this command.\n${permissions}`,
+        )
     }
 
     const timeout = client.commandTimeout
 
     if (!timeout.has(key)) timeout.set(key, new Collection())
+    const timestamps = timeout.get(key)!
 
     const now = new Date().valueOf()
-    const timestamps = timeout.get(key)
     const coolDownAmount = module.timeout ?? commandTimeout
 
     if (timestamps.has(user.id)) {
-        const expirationTime = timestamps.get(user.id) + coolDownAmount
+        const expirationTime = timestamps.get(user.id)! + coolDownAmount
 
         if (now < expirationTime || testers.includes(user.id) || developers.includes(user.id)) {
-            const timeLeft = `<t:${Math.round(expirationTime / 1000)}:R>`
+            const timeLeft = getDynamicTime(expirationTime, "RELATIVE")
             const content = `Slow down buddy! You can use \`${keys.join(" ")}\` command **${timeLeft}**.`
-            return command.response(content)
+            return await command.reply(content)
         }
     }
 

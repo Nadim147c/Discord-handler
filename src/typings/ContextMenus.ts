@@ -7,17 +7,15 @@ import {
     PermissionsString,
     UserContextMenuCommandInteraction,
 } from "discord.js"
-import ExtendedClient from "../structures/Client"
-import { InteractionReplier } from "./Commands"
+import ExtendedClient from "../structures/Client.js"
 
-export interface ExtendedMessageContextMenu extends Omit<MessageContextMenuCommandInteraction, "member" | "client"> {
+export interface ExtendedMessageContextMenu
+    extends Omit<MessageContextMenuCommandInteraction, "member" | "client"> {
     member: GuildMember
     client: ExtendedClient
-    response: InteractionReplier
-    warn: InteractionReplier
-    error: InteractionReplier
 }
 
+// eslint-disable-next-line no-unused-vars
 export type MessageContextMenuFunction = (interaction: ExtendedMessageContextMenu) => unknown
 
 export type MessageContextMenuType = {
@@ -27,14 +25,13 @@ export type MessageContextMenuType = {
     run: MessageContextMenuFunction
 } & BaseApplicationCommandData
 
-export interface ExtendedUserContextMenu extends Omit<UserContextMenuCommandInteraction, "member" | "client"> {
+export interface ExtendedUserContextMenu
+    extends Omit<UserContextMenuCommandInteraction, "member" | "client"> {
     member: GuildMember
     client: ExtendedClient
-    response: InteractionReplier
-    warn: InteractionReplier
-    error: InteractionReplier
 }
 
+// eslint-disable-next-line no-unused-vars
 export type UserContextMenuFunction = (interaction: ExtendedUserContextMenu) => unknown
 
 export type UserContextMenuType = {

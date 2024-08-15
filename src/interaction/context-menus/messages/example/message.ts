@@ -1,8 +1,8 @@
-import { MessageContentMenu } from "../../../../structures/ContextMenu"
+import { MessageContentMenu } from "../../../../structures/ContextMenu.js"
 
 export default new MessageContentMenu({
     name: "example",
     async run(context) {
-        context.response(`This command is handled from \`${__filename}\``)
+        context.reply(`This command is handled from \`${__filename}\``)
     },
 })

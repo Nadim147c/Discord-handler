@@ -1,9 +1,8 @@
-import { MentionableSelectMenu } from "../../../structures/SelectMenu"
+import { MentionableSelectMenu } from "../../../structures/SelectMenu.js"
 
 export default new MentionableSelectMenu({
     id: "mentionable",
     async run(select) {
-        const content = `This select-menu is handled from \`${__filename}\``
-        select.response(content)
+        select.reply(`This select-menu is handled from \`${__filename}\``)
     },
 })

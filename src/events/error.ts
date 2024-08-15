@@ -1,4 +1,4 @@
-import { logError } from "../functions/log/logger"
-import Event from "../structures/Event"
+import { logError } from "../functions/log/logger.js"
+import Event from "../structures/Event.js"
 
 export default new Event("error", logError)

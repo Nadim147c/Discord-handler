@@ -1,7 +1,6 @@
 import { codeBlock, EmbedBuilder, EmbedField } from "discord.js"
-import { color } from "../../../config"
-import Command from "../../../structures/Command"
-import type { CommandType } from "../../../typings/Commands"
+import Command from "../../../structures/Command.js"
+import { CommandType } from "../../../typings/Commands.js"
 
 // A sub commands of help
 export default new Command({
@@ -22,14 +21,14 @@ export default new Command({
                     .filter(([, v]) => v.category === cate)
                     .map(map)
                     .join("\n"),
-            )
-            const name = cate
+            ) as string
+            const name = cate as string
             return { value, name, inline: false }
         })
 
         const embeds = [
             new EmbedBuilder()
-                .setColor(color)
+                .setColor(globalThis.config.color)
                 .setTitle("Help")
                 .setDescription("Here is the list of all available commands.")
                 .setFields(fields),

@@ -1,14 +1,14 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
-    ApplicationCommandOptionType as OptionType,
     ApplicationCommandSubGroupData,
     ApplicationCommandType,
     ChatInputApplicationCommandData,
     Collection,
+    ApplicationCommandOptionType as OptionType,
 } from "discord.js"
-import glob from "glob"
-import type ExtendedClient from "../structures/Client"
-import type { CommandType } from "../typings/Commands"
+import { glob } from "glob"
+import { srcDir } from "../dirname.cjs"
+import ExtendedClient from "../structures/Client.js"
+import type { CommandType } from "../typings/Commands.js"
 
 type CommandPathInfo = {
     path: string
@@ -20,14 +20,14 @@ type CommandPathInfo = {
 
 type CommandData = Collection<string, ChatInputApplicationCommandData>
 
-const path = `${__dirname}/../commands/`
+const path = `${srcDir}/commands/`
 
 type Mutable<T> = {
     -readonly [P in keyof T]: T[P]
 }
 
 function extractInfoFromPath(inputPath: string): CommandPathInfo {
-    const dirnameLength = __dirname.split("/").length
+    const dirnameLength = srcDir.split("/").length + 1
 
     const pieces = inputPath.split("/").slice(dirnameLength)
 
@@ -103,7 +103,7 @@ function setCommandData(info: CommandPathInfo, module: CommandType, collection: 
 export default async (client: ExtendedClient) => {
     const commandDataCollection: CommandData = new Collection()
 
-    async function registerCommands(_: unknown, files: string[]) {
+    async function registerCommands(files: string[]) {
         const pathInfos = files.map((file) => extractInfoFromPath(file))
 
         const modules: CommandType[] = await Promise.all(
@@ -130,5 +130,6 @@ export default async (client: ExtendedClient) => {
         })
     }
 
-    glob(`${path}**/**/**/*{.js,.ts}`, { windowsPathsNoEscape: true }, registerCommands)
+    const files = await glob(`${path}**/**/**/*{.js,.ts}`, { windowsPathsNoEscape: true })
+    registerCommands(files)
 }

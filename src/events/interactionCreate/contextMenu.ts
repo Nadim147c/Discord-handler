@@ -1,12 +1,12 @@
 import { inlineCode } from "discord.js"
-import { logError } from "../../functions/log/logger"
-import Event from "../../structures/Event"
+import { logError } from "../../functions/log/logger.js"
+import Event from "../../structures/Event.js"
 import {
     ExtendedMessageContextMenu,
     ExtendedUserContextMenu,
     MessageContextMenuType,
     UserContextMenuType,
-} from "../../typings/ContextMenus"
+} from "../../typings/ContextMenus.js"
 
 export default new Event("interactionCreate", async (interaction) => {
     if (!interaction.isContextMenuCommand()) return
@@ -15,10 +15,10 @@ export default new Event("interactionCreate", async (interaction) => {
 
     const { member, client } = context
 
-    function checkPermission(module: MessageContextMenuType | UserContextMenuType): boolean {
+    async function checkPermission(module: MessageContextMenuType | UserContextMenuType) {
         if (module.permissions?.length && !member.permissions.has(module.permissions)) {
             const permissions = module.permissions.map((x) => inlineCode(x)).join(", ")
-            context.warn(
+            await context.reply(
                 `You need following permissions to use this dropdown menu.\n${permissions}`,
             )
             return true
@@ -28,9 +28,9 @@ export default new Event("interactionCreate", async (interaction) => {
 
     if (context.isMessageContextMenuCommand()) {
         const module = client.contextMenus.message.get(context.commandName)
-        if (!module) return context.error("oops! There is any annoying error.")
+        if (!module) return await context.reply("oops! There is any annoying error.")
 
-        if (checkPermission(module)) return
+        if (await checkPermission(module)) return
 
         try {
             module.run(context)
@@ -39,9 +39,9 @@ export default new Event("interactionCreate", async (interaction) => {
         }
     } else if (context.isUserContextMenuCommand()) {
         const module = client.contextMenus.user.get(context.commandName)
-        if (!module) return context.error("oops! There is any annoying error.")
+        if (!module) return await context.reply("oops! There is any annoying error.")
 
-        if (checkPermission(module)) return
+        if (await checkPermission(module)) return
 
         try {
             module.run(context)

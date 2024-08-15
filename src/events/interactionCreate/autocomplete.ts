@@ -1,12 +1,12 @@
-import { logError } from "../../functions/log/logger"
-import Event from "../../structures/Event"
-import { ExtendedAutoComplete } from "../../typings/Commands"
+import { logError } from "../../functions/log/logger.js"
+import Event from "../../structures/Event.js"
+import { ExtendedAutoComplete } from "../../typings/Commands.js"
 
 export default new Event("interactionCreate", async (interaction) => {
     if (!interaction.isAutocomplete()) return
 
     const autoComplete = interaction as unknown as ExtendedAutoComplete
-    
+
     const { client, options, commandName } = autoComplete
 
     const group = options.getSubcommandGroup(false)
