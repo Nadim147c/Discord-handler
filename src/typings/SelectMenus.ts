@@ -52,7 +52,6 @@ export interface ExtendedAnySelectMenu
     client: ExtendedClient
 }
 
-// eslint-disable-next-line no-unused-vars
 export type SelectMenuFunction<Interaction> = (interaction: Interaction) => unknown
 
 type SelectMenuType<

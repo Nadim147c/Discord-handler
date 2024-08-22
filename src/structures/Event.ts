@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import type { ClientEvents } from "discord.js"
 
 export default class Event<Key extends keyof ClientEvents> {

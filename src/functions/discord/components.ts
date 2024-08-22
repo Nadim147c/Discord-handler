@@ -32,7 +32,6 @@ export const createButton = (
 ) => {
     const button = new ButtonBuilder().setStyle(style)
     if (label) button.setLabel(label)
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     style === Link ? button.setURL(customId) : button.setCustomId(customId)
     if (emoji) button.setEmoji(emoji)
     if (disabled) button.setDisabled(disabled)

@@ -42,12 +42,10 @@ export const LogStart = (client: ExtendedClient) => {
 
     const avatarURL = client.user.displayAvatarURL()
 
-    // eslint-disable-next-line no-console
     webhook.send({ embeds, avatarURL }).catch(console.error)
 }
 
 export const logError = (error: Error | unknown) => {
-    // eslint-disable-next-line no-console
     console.error(error)
     if (!process.env.ERROR) return
     if (error instanceof Error && error.message === "Missing Permissions") return
@@ -70,12 +68,10 @@ export const logError = (error: Error | unknown) => {
 
     const embeds = [embed]
 
-    // eslint-disable-next-line no-console
     webhook.send({ embeds }).catch(console.error)
 }
 
 export const guildLog = (guild: Guild, event: "CREATE" | "DELETE") => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     event === "CREATE"
         ? logSuccess(`Guild Create: ${guild.name}`)
         : LogFail(`Guild Remove: ${guild.name}`)
@@ -98,6 +94,5 @@ export const guildLog = (guild: Guild, event: "CREATE" | "DELETE") => {
 
     const username = event === "CREATE" ? "Guild Create" : "Guild Delete"
 
-    // eslint-disable-next-line no-console
     webhook.send({ embeds, username }).catch(console.error)
 }

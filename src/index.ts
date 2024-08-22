@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
 import { config } from "dotenv"
 import { z } from "zod"
 import loadConfig from "./loadConfig.js"

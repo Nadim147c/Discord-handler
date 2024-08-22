@@ -7,7 +7,6 @@ export interface ExtendedButton extends Omit<ButtonInteraction, "member" | "clie
     customValue?: string
 }
 
-// eslint-disable-next-line no-unused-vars
 export type ButtonFunction = (interaction: ExtendedButton) => unknown
 
 export type ButtonType = {

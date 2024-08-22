@@ -7,7 +7,6 @@ export interface ExtendedModal extends Omit<ModalSubmitInteraction, "member" | "
     customValue?: string
 }
 
-// eslint-disable-next-line no-unused-vars
 export type ModalSubmitFunction = (interaction: ExtendedModal) => unknown
 
 export type ModalType = {

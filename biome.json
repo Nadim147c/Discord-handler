@@ -28,7 +28,7 @@
         "formatWithErrors": true
     },
     "linter": {
-        "ignore": ["dist", "**/dist", "eslint.config.mjs", "commitlint.config.js", "pre-commit.js"],
+        "ignore": ["dist", "**/dist", "commitlint.config.js", "pre-commit.js"],
         "enabled": true,
         "rules": {
             "recommended": true,

@@ -23,7 +23,6 @@ declare global {
     interface Global {
         config: z.infer<typeof configSchema>
     }
-    // eslint-disable-next-line no-var
     var config: Global["config"]
 }
 
@@ -47,7 +46,6 @@ export default async function loadConfig() {
             logError(config.error)
             process.exit(1)
         }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_error) {
         const data = TOML.stringify({
             devGuilds: [],

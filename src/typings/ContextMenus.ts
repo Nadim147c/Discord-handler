@@ -15,7 +15,6 @@ export interface ExtendedMessageContextMenu
     client: ExtendedClient
 }
 
-// eslint-disable-next-line no-unused-vars
 export type MessageContextMenuFunction = (interaction: ExtendedMessageContextMenu) => unknown
 
 export type MessageContextMenuType = {
@@ -31,7 +30,6 @@ export interface ExtendedUserContextMenu
     client: ExtendedClient
 }
 
-// eslint-disable-next-line no-unused-vars
 export type UserContextMenuFunction = (interaction: ExtendedUserContextMenu) => unknown
 
 export type UserContextMenuType = {
