@@ -2,13 +2,13 @@ import {
     ActionRowBuilder,
     ButtonBuilder,
     ButtonStyle,
-    ChannelSelectMenuBuilder,
+    type ChannelSelectMenuBuilder,
     ModalBuilder,
-    RoleSelectMenuBuilder,
-    StringSelectMenuBuilder,
+    type RoleSelectMenuBuilder,
+    type StringSelectMenuBuilder,
     TextInputBuilder,
-    TextInputStyle,
-    UserSelectMenuBuilder,
+    type TextInputStyle,
+    type UserSelectMenuBuilder,
 } from "discord.js"
 
 type ComponentType =
@@ -28,7 +28,7 @@ export const createButton = (
     customId: string,
     style: ButtonStyle = Secondary,
     disabled?: boolean,
-    emoji?: string,
+    emoji?: string
 ) => {
     const button = new ButtonBuilder().setStyle(style)
     if (label) button.setLabel(label)
@@ -46,7 +46,7 @@ export const createModalField = (
     style: TextInputStyle,
     required = true,
     min?: number,
-    max?: number,
+    max?: number
 ) => {
     const textInput = new TextInputBuilder()
         .setLabel(label)

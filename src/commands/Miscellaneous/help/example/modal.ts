@@ -9,20 +9,22 @@ export default new Command({
     },
     dev: true,
     async run(command) {
-        const modalBody = createModel("Modal title", "example").addComponents(
-            createModalField(
-                "Short field",
-                "short",
-                "You can type anything.",
-                TextInputStyle.Short,
-            ),
-            createModalField(
-                "Paragraph field",
-                "paragraph",
-                "You can type anything.",
-                TextInputStyle.Paragraph,
-            ),
+        const shortField = createModalField(
+            "Short field",
+            "short",
+            "You can type anything.",
+            TextInputStyle.Short
         )
-        command.showModal(modalBody)
+        const paragraphField = createModalField(
+            "Paragraph field",
+            "paragraph",
+            "You can type anything.",
+            TextInputStyle.Paragraph
+        )
+        const modalBody = createModel("Modal title", "example").addComponents(
+            shortField,
+            paragraphField
+        )
+        await command.showModal(modalBody)
     },
 })

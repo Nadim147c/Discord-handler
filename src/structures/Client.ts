@@ -1,6 +1,6 @@
 import {
-    ApplicationCommand,
-    ApplicationCommandData,
+    type ApplicationCommand,
+    type ApplicationCommandData,
     Client,
     Collection,
     Partials,
@@ -73,7 +73,7 @@ export default class ExtendedClient<T extends true = true> extends Client<T> {
     async loadModules() {
         const files = await this.getFiles(`${srcDir}/modules/`)
         const modules = await Promise.all(files.map((file) => this.importFile(file)))
-        modules.forEach((module) => module(this))
+        for (const discordModule of modules) discordModule(this)
     }
 
     async registerCommands(guildId?: string) {

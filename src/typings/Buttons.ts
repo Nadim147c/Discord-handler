@@ -1,5 +1,5 @@
-import { ButtonInteraction, GuildMember, PermissionsString } from "discord.js"
-import ExtendedClient from "../structures/Client.js"
+import type { ButtonInteraction, GuildMember, PermissionsString } from "discord.js"
+import type ExtendedClient from "../structures/Client.js"
 
 export interface ExtendedButton extends Omit<ButtonInteraction, "member" | "client"> {
     member: GuildMember

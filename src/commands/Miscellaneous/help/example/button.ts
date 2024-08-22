@@ -9,6 +9,6 @@ export default new Command({
     dev: true,
     async run(command) {
         const components = [createRow(createButton("example", "example"))]
-        command.reply({ components, ephemeral: true })
+        await command.reply({ components, ephemeral: true })
     },
 })

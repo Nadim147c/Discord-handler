@@ -1,7 +1,7 @@
 import { inlineCode } from "discord.js"
 import { logError } from "../../functions/log/logger.js"
 import Event from "../../structures/Event.js"
-import {
+import type {
     ExtendedMessageContextMenu,
     ExtendedUserContextMenu,
     MessageContextMenuType,
@@ -19,7 +19,7 @@ export default new Event("interactionCreate", async (interaction) => {
         if (module.permissions?.length && !member.permissions.has(module.permissions)) {
             const permissions = module.permissions.map((x) => inlineCode(x)).join(", ")
             await context.reply(
-                `You need following permissions to use this dropdown menu.\n${permissions}`,
+                `You need following permissions to use this dropdown menu.\n${permissions}`
             )
             return true
         }

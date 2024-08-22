@@ -1,8 +1,8 @@
 import { Collection, inlineCode } from "discord.js"
-import { CommandType, ExtendedCommand } from "../../typings/Commands.js"
-import Event from "../../structures/Event.js"
 import { getDynamicTime } from "../../functions/discord/getDynamicTime.js"
 import { logError } from "../../functions/log/logger.js"
+import Event from "../../structures/Event.js"
+import type { CommandType, ExtendedCommand } from "../../typings/Commands.js"
 
 export default new Event("interactionCreate", async (interaction) => {
     if (!interaction.isChatInputCommand()) return
@@ -31,20 +31,21 @@ export default new Event("interactionCreate", async (interaction) => {
     if (module.permissions?.length && !member.permissions.has(module.permissions)) {
         const permissions = module.permissions.map((x) => inlineCode(x)).join(", ")
         return await command.reply(
-            `You need following permissions to use this command.\n${permissions}`,
+            `You need following permissions to use this command.\n${permissions}`
         )
     }
 
     const timeout = client.commandTimeout
 
     if (!timeout.has(key)) timeout.set(key, new Collection())
+    // biome-ignore lint/style/noNonNullAssertion: Timestamp already has be checked and set
     const timestamps = timeout.get(key)!
 
     const now = new Date().valueOf()
     const coolDownAmount = module.timeout ?? commandTimeout
 
     if (timestamps.has(user.id)) {
-        const expirationTime = timestamps.get(user.id)! + coolDownAmount
+        const expirationTime = (timestamps.get(user.id) ?? 0) + coolDownAmount
 
         if (now < expirationTime || testers.includes(user.id) || developers.includes(user.id)) {
             const timeLeft = getDynamicTime(expirationTime, "RELATIVE")
@@ -56,8 +57,11 @@ export default new Event("interactionCreate", async (interaction) => {
     timestamps.set(user.id, now)
     setTimeout(() => timestamps.delete(user.id), coolDownAmount)
 
-    if (module.ephemeral) await command.deferReply({ ephemeral: true })
-    else if (module.deffer) await command.deferReply()
+    if (module.ephemeral) {
+        await command.deferReply({ ephemeral: true })
+    } else if (module.deffer) {
+        await command.deferReply()
+    }
 
     try {
         module.run(command)

@@ -1,7 +1,7 @@
 import { inlineCode } from "discord.js"
 import { logError } from "../../functions/log/logger.js"
 import Event from "../../structures/Event.js"
-import {
+import type {
     ChannelSelectMenuType,
     ExtendedChannelSelectMenu,
     ExtendedMentionableSelectMenu,
@@ -32,7 +32,7 @@ export default new Event("interactionCreate", async (interaction) => {
 
     const selectMenu = interaction as unknown as Interaction
 
-    const key = selectMenu.customId.split(":").at(0)!
+    const key = selectMenu.customId.split(":").at(0) as string
     const customValue = selectMenu.customId.split(":").at(1)
 
     selectMenu.customValue = customValue
@@ -58,13 +58,14 @@ export default new Event("interactionCreate", async (interaction) => {
     if (module.permissions?.length && !member.permissions.has(module.permissions)) {
         const permissions = module.permissions.map((x) => inlineCode(x)).join(", ")
         return selectMenu.reply(
-            `You need following permissions to use this dropdown menu.\n${permissions}`,
+            `You need following permissions to use this dropdown menu.\n${permissions}`
         )
     }
 
     try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        module.run(selectMenu as any)
+        // NOTE: SKILL ISSUE! But works fine...
+        //@ts-ignore
+        module.run(selectMenu)
     } catch (error) {
         logError(error)
     }

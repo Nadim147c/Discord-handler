@@ -9,36 +9,32 @@
         "start": "bun run dist/index.js",
         "build:start": "bun exec tsc && bun run dist/.",
         "nodemon": "nodemon dist/.",
-        "lint": "eslint .",
         "dev": "bun run --watch src/index.ts",
         "build": "tsc",
         "watch": "tsc -w",
-        "prepare": "bunx husky"
+        "prepare": "bunx husky",
+        "lint": "biome lint",
+        "lint:fix": "biome lint --fix",
+        "format": "biome check --write --no-errors-on-unmatched --linter-enabled=false --formatter-enabled=true --organize-imports-enabled=true",
+        "ci": "biome ci --no-errors-on-unmatched --formatter-enabled=true --linter-enabled=true --organize-imports-enabled=true ."
     },
     "lint-staged": {
-        "*.{ts,cts,mts,js,cjs,mjs}": "eslint --fix",
-        "*": "prettier --ignore-unknown --write"
+        "*.{ts,cts,mts,js,cjs,mjs}": "biome lint --fix",
+        "*": "biome check --write --no-errors-on-unmatched --linter-enabled=false --formatter-enabled=true --organize-imports-enabled=true"
     },
     "author": "3n123",
     "license": "MIT",
     "devDependencies": {
-        "@eslint/eslintrc": "^3.1.0",
-        "@eslint/js": "^9.9.0",
+        "@biomejs/biome": "^1.8.3",
+        "@commitlint/cli": "^19.4.0",
+        "@commitlint/config-conventional": "^19.2.2",
         "@types/glob": "^8.1.0",
         "@types/node": "^22.5.0",
-        "@typescript-eslint/eslint-plugin": "^8.2.0",
-        "@typescript-eslint/parser": "^8.2.0",
-        "concurrently": "^8.2.2",
-        "eslint": "^9.9.0",
-        "eslint-config-prettier": "^8.10.0",
-        "nodemon": "^2.0.22",
+        "commitlint": "^19.4.0",
         "typescript": "^5.5.4"
     },
     "dependencies": {
-        "@commitlint/cli": "^19.4.0",
-        "@commitlint/config-conventional": "^19.2.2",
         "chalk": "^4.1.2",
-        "commitlint": "^19.4.0",
         "discord.js": "^14.15.3",
         "dotenv": "^16.4.5",
         "glob": "^11.0.0",

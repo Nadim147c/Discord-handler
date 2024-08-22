@@ -1,6 +1,6 @@
-import { codeBlock, EmbedBuilder, EmbedField } from "discord.js"
+import { EmbedBuilder, type EmbedField, codeBlock } from "discord.js"
 import Command from "../../../structures/Command.js"
-import { CommandType } from "../../../typings/Commands.js"
+import type { CommandType } from "../../../typings/Commands.js"
 
 // A sub commands of help
 export default new Command({
@@ -20,7 +20,7 @@ export default new Command({
                 commands
                     .filter(([, v]) => v.category === cate)
                     .map(map)
-                    .join("\n"),
+                    .join("\n")
             ) as string
             const name = cate as string
             return { value, name, inline: false }

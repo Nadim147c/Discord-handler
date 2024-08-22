@@ -1,7 +1,7 @@
 import {
     ActionRowBuilder,
     ChannelSelectMenuBuilder,
-    ComponentEmojiResolvable,
+    type ComponentEmojiResolvable,
     MentionableSelectMenuBuilder,
     RoleSelectMenuBuilder,
     StringSelectMenuBuilder,
@@ -37,25 +37,25 @@ export default new Command({
                 new UserSelectMenuBuilder()
                     .setCustomId("user")
                     .setPlaceholder("User select menu")
-                    .setMaxValues(1),
+                    .setMaxValues(1)
             ),
             createRow().addComponents(
                 new RoleSelectMenuBuilder()
                     .setCustomId("role")
                     .setPlaceholder("Role select menu")
-                    .setMaxValues(1),
+                    .setMaxValues(1)
             ),
             createRow().addComponents(
                 new ChannelSelectMenuBuilder()
                     .setCustomId("channel")
                     .setPlaceholder("Channel select menu")
-                    .setMaxValues(1),
+                    .setMaxValues(1)
             ),
             createRow().addComponents(
                 new MentionableSelectMenuBuilder()
                     .setCustomId("mentionable")
                     .setPlaceholder("Mentionable select menu")
-                    .setMaxValues(1),
+                    .setMaxValues(1)
             ),
             createRow().addComponents(
                 new StringSelectMenuBuilder()
@@ -64,8 +64,8 @@ export default new Command({
                     .setMaxValues(1)
                     .addOptions(
                         createOption("First option", "option 1", "😀"),
-                        createOption("Second option", "option 2", "😀"),
-                    ),
+                        createOption("Second option", "option 2", "😀")
+                    )
             ),
         ]
 

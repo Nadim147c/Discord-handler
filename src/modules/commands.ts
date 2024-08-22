@@ -1,21 +1,21 @@
 import {
-    ApplicationCommandSubGroupData,
+    type ApplicationCommandSubGroupData,
     ApplicationCommandType,
-    ChatInputApplicationCommandData,
+    type ChatInputApplicationCommandData,
     Collection,
     ApplicationCommandOptionType as OptionType,
 } from "discord.js"
 import { glob } from "glob"
 import { srcDir } from "../dirname.js"
-import ExtendedClient from "../structures/Client.js"
+import type ExtendedClient from "../structures/Client.js"
 import type { CommandType } from "../typings/Commands.js"
 
 type CommandPathInfo = {
     path: string
     category: string
     baseName: string
-    midName: string
-    topName: string
+    midName?: string
+    topName?: string
 }
 
 type CommandData = Collection<string, ChatInputApplicationCommandData>
@@ -33,12 +33,13 @@ function extractInfoFromPath(inputPath: string): CommandPathInfo {
 
     if (pieces.length < 2) throw "Invalid files structure."
 
+    // HACK: `?? ""` is purely for type check because we already check the length of the array
     const info: CommandPathInfo = {
         path: inputPath,
-        category: pieces.shift()!,
-        baseName: pieces.pop()!,
-        midName: pieces.pop()!,
-        topName: pieces.pop()!,
+        category: pieces.at(0) ?? "",
+        baseName: pieces.at(1) ?? "",
+        midName: pieces.at(2),
+        topName: pieces.at(3),
     }
 
     return info
@@ -66,11 +67,11 @@ function setCommandData(info: CommandPathInfo, module: CommandType, collection: 
         const options = (topLevelCmdData.options as Mutable<typeof topLevelCmdData.options>) ?? []
 
         let midCmdData = options.find(
-            (cmd) => cmd.name === info.midName,
+            (cmd) => cmd.name === info.midName
         ) as ApplicationCommandSubGroupData
 
         if (!midCmdData) {
-            midCmdData = getSubCmdGroupData(info.midName)
+            midCmdData = getSubCmdGroupData(info.midName ?? "")
             options.push(midCmdData)
         }
 
@@ -107,12 +108,12 @@ export default async (client: ExtendedClient) => {
         const pathInfos = files.map((file) => extractInfoFromPath(file))
 
         const modules: CommandType[] = await Promise.all(
-            pathInfos.map((info) => client.importFile(info.path)),
+            pathInfos.map((info) => client.importFile(info.path))
         )
 
         for (let i = 0; i < modules.length; i++) {
-            const pathInfo = pathInfos[i]!
-            const module = modules[i]!
+            const pathInfo = pathInfos[i] as CommandPathInfo
+            const module = modules[i] as CommandType
 
             module.category = pathInfo.category
 
@@ -125,9 +126,9 @@ export default async (client: ExtendedClient) => {
             setCommandData(pathInfo, module, commandDataCollection)
         }
 
-        commandDataCollection.forEach((x) => {
-            client.commandData.add(x)
-        })
+        for (const [_, command] of commandDataCollection) {
+            client.commandData.add(command)
+        }
     }
 
     const files = await glob(`${path}**/**/**/*{.js,.ts}`, { windowsPathsNoEscape: true })

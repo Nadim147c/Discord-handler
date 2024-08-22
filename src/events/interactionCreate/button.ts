@@ -1,14 +1,14 @@
 import { inlineCode } from "discord.js"
-import Event from "../../structures/Event.js"
-import { ButtonType, ExtendedButton } from "../../typings/Buttons.js"
 import { logError } from "../../functions/log/logger.js"
+import Event from "../../structures/Event.js"
+import type { ButtonType, ExtendedButton } from "../../typings/Buttons.js"
 
 export default new Event("interactionCreate", async (interaction) => {
     if (!interaction.isButton()) return
 
     const button = interaction as unknown as ExtendedButton
 
-    const key = button.customId.split(":").at(0)!
+    const key = button.customId.split(":").at(0) as string
     const customValue = button.customId.split(":").at(1)
 
     button.customValue = customValue

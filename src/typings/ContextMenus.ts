@@ -1,4 +1,4 @@
-import {
+import type {
     ApplicationCommandType,
     BaseApplicationCommandData,
     Collection,
@@ -7,7 +7,7 @@ import {
     PermissionsString,
     UserContextMenuCommandInteraction,
 } from "discord.js"
-import ExtendedClient from "../structures/Client.js"
+import type ExtendedClient from "../structures/Client.js"
 
 export interface ExtendedMessageContextMenu
     extends Omit<MessageContextMenuCommandInteraction, "member" | "client"> {

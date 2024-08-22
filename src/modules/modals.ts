@@ -9,5 +9,5 @@ export default async (client: ExtendedClient) => {
 
     const modals: ModalType[] = await Promise.all(files.map((file) => client.importFile(file)))
 
-    modals.forEach((modal) => client.modals.set(modal.id, modal))
+    for (const modal of modals) client.modals.set(modal.id, modal)
 }

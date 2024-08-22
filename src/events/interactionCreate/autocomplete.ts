@@ -1,6 +1,6 @@
 import { logError } from "../../functions/log/logger.js"
 import Event from "../../structures/Event.js"
-import { ExtendedAutoComplete } from "../../typings/Commands.js"
+import type { ExtendedAutoComplete } from "../../typings/Commands.js"
 
 export default new Event("interactionCreate", async (interaction) => {
     if (!interaction.isAutocomplete()) return

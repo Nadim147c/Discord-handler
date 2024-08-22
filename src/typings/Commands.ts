@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import {
+import type {
     ApplicationCommandOptionChoiceData,
     AutocompleteInteraction,
     ChatInputApplicationCommandData,
@@ -8,7 +8,7 @@ import {
     GuildMember,
     PermissionsString,
 } from "discord.js"
-import ExtendedClient from "../structures/Client.js"
+import type ExtendedClient from "../structures/Client.js"
 
 export interface ExtendedCommand extends Omit<CommandInteraction, "options" | "member" | "client"> {
     options: CommandInteractionOptionResolver
@@ -25,7 +25,7 @@ export type CommandFunction = (interaction: ExtendedCommand) => unknown
 
 export type AutoCompleteFunction = (
     interaction: ExtendedAutoComplete,
-    focused: string,
+    focused: string
 ) => Promise<ApplicationCommandOptionChoiceData[]>
 
 export type CommandType = {

@@ -22,7 +22,7 @@ export default async (client: ExtendedClient) => {
 
     const selects: SelectModule[] = await Promise.all(files.map((file) => client.importFile(file)))
 
-    selects.forEach((select) => {
+    for (const select of selects) {
         switch (select.type) {
             case "String":
                 client.selectMenus.string.set(select.id, select)
@@ -39,8 +39,6 @@ export default async (client: ExtendedClient) => {
             case "Mentionable":
                 client.selectMenus.mentionable.set(select.id, select)
                 break
-            default:
-                break
         }
-    })
+    }
 }

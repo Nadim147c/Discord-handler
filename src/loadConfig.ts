@@ -1,5 +1,5 @@
+import { readFile, writeFile } from "node:fs/promises"
 import chalk from "chalk"
-import { readFile, writeFile } from "fs/promises"
 import TOML from "smol-toml"
 import { z } from "zod"
 import { logError } from "./functions/log/logger.js"
@@ -27,8 +27,6 @@ declare global {
     var config: Global["config"]
 }
 
-export {}
-
 export default async function loadConfig() {
     try {
         const configData = await readFile("./config.toml", "utf8")
@@ -37,8 +35,6 @@ export default async function loadConfig() {
         try {
             tomlData = TOML.parse(configData)
         } catch (error) {
-            // eslint-disable-next-line no-console
-            console.log(chalk.red(chalk.bold("Invalid toml configuration")))
             logError(error as Error)
             process.exit(1)
         }
@@ -48,13 +44,11 @@ export default async function loadConfig() {
         if (config.success) {
             globalThis.config = config.data
         } else {
-            // eslint-disable-next-line no-console
-            console.log(chalk.red(chalk.bold("Invalid toml configuration")))
             logError(config.error)
             process.exit(1)
         }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (error) {
+    } catch (_error) {
         const data = TOML.stringify({
             devGuilds: [],
             developers: [],
