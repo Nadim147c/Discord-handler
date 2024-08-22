@@ -6,7 +6,7 @@ import {
     Partials,
 } from "discord.js"
 import { glob } from "glob"
-import { srcDir } from "../dirname.cjs"
+import { srcDir } from "../dirname.js"
 import { logError, logSuccess } from "../functions/log/logger.js"
 import type { ButtonType } from "../typings/Buttons.js"
 import type { CommandType } from "../typings/Commands.js"

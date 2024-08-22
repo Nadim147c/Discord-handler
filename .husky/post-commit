@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if ! pnpm exec commitlint --edit; then
+if ! bun run commitlint --edit; then
   MESSAGE="Commit message does not follow Conventional Commits standard."
   printf "\e[31m%s\e[0m\n" "$MESSAGE"
   echo "You may want to amend the commit: git commit --amend"

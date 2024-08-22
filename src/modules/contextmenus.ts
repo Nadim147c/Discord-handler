@@ -1,5 +1,5 @@
 import { MessageApplicationCommandData, UserApplicationCommandData } from "discord.js"
-import { srcDir } from "../dirname.cjs"
+import { srcDir } from "../dirname.js"
 import type ExtendedClient from "../structures/Client.js"
 import type { MessageContextMenuType, UserContextMenuType } from "../typings/ContextMenus.js"
 

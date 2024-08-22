@@ -1,6 +1,6 @@
 import { ApplicationCommandOptionType, ButtonStyle } from "discord.js"
-import { createButton, createRow } from "../../../functions/discord/components.js"
 import Command from "../../../structures/Command.js"
+import { createButton, createRow } from "../../../functions/discord/components.js"
 
 // An example of a complete command
 export default new Command({

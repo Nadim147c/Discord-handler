@@ -1,4 +1,4 @@
 #!/bin/sh
 
-pnpm install
-pnpx lint-staged
+bun install
+bunx lint-staged

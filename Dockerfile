@@ -1,13 +1,11 @@
-FROM node:21
-
-RUN npm install -g pnpm
+FROM oven/bun:1
 
 WORKDIR /app
 
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 
-RUN pnpm install
+RUN bun install
 
 COPY . .
 

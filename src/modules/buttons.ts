@@ -1,4 +1,4 @@
-import { srcDir } from "../dirname.cjs"
+import { srcDir } from "../dirname.js"
 import ExtendedClient from "../structures/Client.js"
 import type { ButtonType } from "../typings/Buttons.js"
 

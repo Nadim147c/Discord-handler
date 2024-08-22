@@ -1,4 +1,4 @@
-import { srcDir } from "../dirname.cjs"
+import { srcDir } from "../dirname.js"
 import type ExtendedClient from "../structures/Client.js"
 import type { ModalType } from "../typings/Modals.js"
 

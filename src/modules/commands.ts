@@ -6,7 +6,7 @@ import {
     ApplicationCommandOptionType as OptionType,
 } from "discord.js"
 import { glob } from "glob"
-import { srcDir } from "../dirname.cjs"
+import { srcDir } from "../dirname.js"
 import ExtendedClient from "../structures/Client.js"
 import type { CommandType } from "../typings/Commands.js"
 
