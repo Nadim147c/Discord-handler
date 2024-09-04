@@ -1,3 +1,4 @@
+import chalk from "chalk"
 import {
     type ApplicationCommand,
     type ApplicationCommandData,
@@ -7,7 +8,8 @@ import {
 } from "discord.js"
 import { glob } from "glob"
 import { srcDir } from "../dirname.js"
-import { logError, logSuccess } from "../functions/log/logger.js"
+import Print from "../functions/log/Color.js"
+import { logError } from "../functions/log/logger.js"
 import type { ButtonType } from "../typings/Buttons.js"
 import type { CommandType } from "../typings/Commands.js"
 import type { ContextMenuType } from "../typings/ContextMenus.js"
@@ -55,9 +57,11 @@ export default class ExtendedClient<T extends true = true> extends Client<T> {
     commandTimeout: Collection<string, Collection<string, number>> = new Collection()
 
     async start() {
+        Print.title("Initializing...")
         await this.loadModules()
 
-        this.login(process.env.DISCORD)
+        Print.title("Loggin to Discord...")
+        await this.login(process.env.DISCORD)
     }
 
     async importFile(path: string) {
@@ -73,13 +77,18 @@ export default class ExtendedClient<T extends true = true> extends Client<T> {
     async loadModules() {
         const files = await this.getFiles(`${srcDir}/modules/`)
         const modules = await Promise.all(files.map((file) => this.importFile(file)))
-        for (const discordModule of modules) discordModule(this)
+        for await (const discordModule of modules) await discordModule(this)
     }
 
     async registerCommands(guildId?: string) {
-        const then = (commands: Collection<string, ApplicationCommand>) => {
-            const guild = commands.first()?.guild ? ` in ${commands.first()?.guild?.name}` : ""
-            logSuccess(`Registered ${commands.size} commands${guild}.`)
+        const then = async (commands: Collection<string, ApplicationCommand>) => {
+            if (guildId) {
+                const guild = await this.guilds.fetch(guildId)
+                const guildName = chalk.blue(guild.name)
+                Print.title(`Registered ${chalk.yellow(commands.size)} commands in ${guildName}.`)
+                return
+            }
+            Print.title(`Registered ${chalk.yellow(commands.size)} commands globally.`)
         }
 
         if (!guildId) {

@@ -1,4 +1,6 @@
+import { SelectMenuType } from "discord.js"
 import { srcDir } from "../dirname.js"
+import Print from "../functions/log/Color.js"
 import type ExtendedClient from "../structures/Client.js"
 import type {
     ChannelSelectMenuType,
@@ -18,11 +20,14 @@ type SelectModule =
 export default async (client: ExtendedClient) => {
     const path = `${srcDir}/interaction/select-menus`
 
+    Print.title("[Module]", "loading SelectMenus")
+
     const files = await client.getFiles(path)
 
-    const selects: SelectModule[] = await Promise.all(files.map((file) => client.importFile(file)))
+    for await (const file of files) {
+        const select = (await client.importFile(file)) as SelectModule
+        Print.gray(`[SelectMenu${select.type}]`, `ID:${select.id}`)
 
-    for (const select of selects) {
         switch (select.type) {
             case "String":
                 client.selectMenus.string.set(select.id, select)

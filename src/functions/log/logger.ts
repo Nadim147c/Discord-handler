@@ -2,21 +2,20 @@ import chalk from "chalk"
 import { type DateResolvable, EmbedBuilder, type Guild, WebhookClient } from "discord.js"
 import type ExtendedClient from "../../structures/Client.js"
 import { getDynamicTime } from "../discord/getDynamicTime.js"
+import Print from "./Color.js"
 
 const detailedTime = (date: DateResolvable | null | undefined) =>
     date ? `${getDynamicTime(date, "LONG_TIME_AND_DATE")}  ${getDynamicTime(date, "RELATIVE")}` : ""
 
 export const coloredLog = (text: string, color: string) => {
-    // biome-ignore lint/suspicious/noConsoleLog: Log
     console.log(chalk.hex(color)(text))
 }
-export const logSuccess = (str: string) => coloredLog(str, "#0f0")
 export const LogFail = (str: string | Error) => {
     coloredLog(typeof str === "string" ? str : str.message, "#f00")
 }
 
 export const LogStart = (client: ExtendedClient) => {
-    logSuccess(`${client.user.username} is ready.`)
+    Print.title(`[Ready] ${client.user.username}:${client.user.id}.`)
     if (!process.env.LOGIN) return
     const webhook = new WebhookClient({ url: process.env.LOGIN })
 
@@ -73,7 +72,7 @@ export const logError = (error: Error | unknown) => {
 
 export const guildLog = (guild: Guild, event: "CREATE" | "DELETE") => {
     event === "CREATE"
-        ? logSuccess(`Guild Create: ${guild.name}`)
+        ? Print.title(`Guild Create: ${guild.name}`)
         : LogFail(`Guild Remove: ${guild.name}`)
 
     if (!process.env.GUILDS) return

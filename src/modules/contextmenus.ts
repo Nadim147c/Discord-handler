@@ -1,5 +1,6 @@
 import type { MessageApplicationCommandData, UserApplicationCommandData } from "discord.js"
 import { srcDir } from "../dirname.js"
+import Print from "../functions/log/Color.js"
 import type ExtendedClient from "../structures/Client.js"
 import type { MessageContextMenuType, UserContextMenuType } from "../typings/ContextMenus.js"
 
@@ -7,31 +8,23 @@ export default async (client: ExtendedClient) => {
     const userPath = `${srcDir}/interaction/context-menus/users`
     const messagePath = `${srcDir}/interaction/context-menus/messages`
 
-    async function userLoader(path: string) {
-        const files = await client.getFiles(path)
+    Print.title("[Module]", "loading ContextMenus")
 
-        const modules: UserContextMenuType[] = await Promise.all(
-            files.map((file) => client.importFile(file))
-        )
+    const userContextPaths = await client.getFiles(userPath)
 
-        for (const module of modules) {
-            client.contextMenus.user.set(module.name, module)
-            client.commandData.add(module as UserApplicationCommandData)
-        }
+    for await (const file of userContextPaths) {
+        const userContextMenu = (await client.importFile(file)) as UserContextMenuType
+        Print.gray("[UserContextMenu]", `ID:${userContextMenu.name}`)
+        client.contextMenus.user.set(userContextMenu.name, userContextMenu)
+        client.commandData.add(userContextMenu as UserApplicationCommandData)
     }
 
-    async function messageLoader(path: string) {
-        const files = await client.getFiles(path)
-        const modules: MessageContextMenuType[] = await Promise.all(
-            files.map((file) => client.importFile(file))
-        )
+    const messageContextPaths = await client.getFiles(messagePath)
 
-        for (const module of modules) {
-            client.contextMenus.message.set(module.name, module)
-            client.commandData.add(module as MessageApplicationCommandData)
-        }
+    for await (const file of messageContextPaths) {
+        const messageContextMenu = (await client.importFile(file)) as MessageContextMenuType
+        Print.gray("[MessageContextMenu]", `ID:${messageContextMenu.name}`)
+        client.contextMenus.message.set(messageContextMenu.name, messageContextMenu)
+        client.commandData.add(messageContextMenu as MessageApplicationCommandData)
     }
-
-    userLoader(userPath)
-    messageLoader(messagePath)
 }

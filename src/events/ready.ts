@@ -6,7 +6,12 @@ export default new Event("ready", async (baseClient) => {
     // HACK: This one just for setting proper type
     const client = baseClient as ExtendedClient
     LogStart(client)
+
     for (const guildId of global.config.devGuilds) {
-        await client.registerCommands(guildId)
+        try {
+            await client.registerCommands(guildId)
+        } catch (error) {
+            console.error(error)
+        }
     }
 })

@@ -1,5 +1,4 @@
 import { readFile, writeFile } from "node:fs/promises"
-import chalk from "chalk"
 import TOML from "smol-toml"
 import { z } from "zod"
 import { logError } from "./functions/log/logger.js"
@@ -10,6 +9,7 @@ const configSchema = z
         developers: z.array(z.string()),
         testers: z.array(z.string()),
         commandTimeout: z.number(),
+        globalErrorHandling: z.boolean(),
         color: z.number(),
         colors: z.object({
             default: z.number(),
@@ -46,19 +46,22 @@ export default async function loadConfig() {
             logError(config.error)
             process.exit(1)
         }
-    } catch (_error) {
+    } catch (error) {
+        console.error(error)
+
         const data = TOML.stringify({
             devGuilds: [],
             developers: [],
             testers: [],
             commandTimeout: 5_000,
+            globalErrorHandling: true,
             color: 0x2f3136,
             colors: {
                 default: 0x2f3136,
                 warn: 0xffff00,
                 error: 0xff0000,
             },
-        })
+        } satisfies z.infer<typeof configSchema>)
 
         await writeFile("./config.toml", data, "utf8")
     }

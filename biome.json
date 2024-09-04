@@ -1,14 +1,20 @@
 {
     "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+    "organizeImports": { "enabled": true },
+    "formatter": {
+        "enabled": true,
+        "lineWidth": 100,
+        "lineEnding": "lf",
+        "indentWidth": 4,
+        "indentStyle": "space",
+        "formatWithErrors": true
+    },
     "javascript": {
         "formatter": {
             "semicolons": "asNeeded",
             "quoteStyle": "double",
             "trailingCommas": "es5"
         }
-    },
-    "organizeImports": {
-        "enabled": true
     },
     "json": {
         "formatter": {
@@ -18,14 +24,6 @@
             "indentWidth": 4,
             "indentStyle": "space"
         }
-    },
-    "formatter": {
-        "enabled": true,
-        "lineWidth": 100,
-        "lineEnding": "lf",
-        "indentWidth": 4,
-        "indentStyle": "space",
-        "formatWithErrors": true
     },
     "linter": {
         "ignore": ["dist", "**/dist", "commitlint.config.js", "pre-commit.js"],
@@ -83,7 +81,6 @@
                 "useConst": "error"
             },
             "suspicious": {
-                "noConsoleLog": "info",
                 "noAsyncPromiseExecutor": "error",
                 "noCatchAssign": "error",
                 "noClassAssign": "error",
