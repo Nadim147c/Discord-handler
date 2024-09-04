@@ -29,7 +29,7 @@ jobs:
     version-bump-changelog-release:
         name: Bump Version, Generate Changelog, and Create Release
         needs: build
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         runs-on: ubuntu-latest
         steps:
             - name: Clone the git repository
