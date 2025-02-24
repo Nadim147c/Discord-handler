@@ -1,6 +1,12 @@
-# ⚠ This handler no longer supports windows
+# No Longer Maintained!
 
-I recently archived this repository because it was really hard to make it work on windows. So, I dropped it's support for windows. In future, I might add support for windows. But current you have to use WSL 2 to work to work on it on windows.
+This was my first project that I was truly happy with. However, I no longer have the
+mental capacity to maintain this repository. **Why?** Breaking changes. I still
+remember trying to update a single package and spending five hours fixing type
+errors. Additionally, `discord.js` is notorious for its breaking changes, and I don't
+believe they will stop finding new ways to break users' code.
+
+---
 
 # Discord Handler
 
